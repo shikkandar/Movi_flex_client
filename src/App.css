@@ -21,10 +21,24 @@ body{
     width: 350px;
 
 }
+.img-con2{
+    position: relative;
+    top: 100px;
+    width: 200px;
+    height: 200px;
+}
+.img2{
+    width: 200px;
+    height: 200px;
+    aspect-ratio: 1/1; 
+    border: 6px solid #FDB805;
+    position: relative;
+}
 .img1{
     width: 120px;
     border-radius: 50%;
     aspect-ratio: 1/1;
+    
 }
 .img-con{
     width: 120px;
@@ -45,6 +59,13 @@ body{
 .upload {
     position: relative;
     top: -35px;
+    padding: 5px 0;
+    background-color: rgba(209, 204, 204, 0.67);
+    text-align: center;
+    font-weight: 800;
+}
+.upload1 {
+    position: relative;
     padding: 5px 0;
     background-color: rgba(209, 204, 204, 0.67);
     text-align: center;
