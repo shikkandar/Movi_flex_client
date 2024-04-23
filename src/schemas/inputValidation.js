@@ -43,6 +43,9 @@ export const userSchema = yup.object({
       else if (value) {
         try {
           const {status} =await Authenticate(value)
+          if (status !==200) {
+            toast.loading("Verifying")
+          }
           return status ===200
         } catch (error) {
           toast.error("User does not exist...!")
