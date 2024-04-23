@@ -67,7 +67,7 @@ export const Register = () => {
     }
   };
   return (
-    <>
+    <div className="back">
       <Container
         className="d-flex  justify-content-center  align-items-sm-center  px-0 vh-100"
         fluid>
@@ -206,6 +206,6 @@ export const Register = () => {
           </div>
         </div>
       </Container>
-    </>
+    </div>
   );
 };

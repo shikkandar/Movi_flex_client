@@ -64,7 +64,7 @@ export const Reset = () => {
     <Navigate to={'/'} replace={true}></Navigate>
   }
   return (
-    <>
+    <div className="back">
       <Container
         className="d-flex  justify-content-center align-items-lg-center px-0 vh-100"
         fluid>
@@ -151,6 +151,6 @@ export const Reset = () => {
           </div>
         </div>
       </Container>
-    </>
+    </div>
   );
 };
