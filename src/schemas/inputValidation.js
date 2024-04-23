@@ -36,25 +36,29 @@ export const userSchema = yup.object({
   .string()
   .test(
     "username-existence","",
-    async value=>{
-      if (value.trim()==="") {
-        toast.error("Please enter a valid username")
-      }
-      else if (value) {
+    async (value) => {
+      if (value.trim() === "") {
+        toast.error("Please enter a valid username");
+        return false;
+      } else if (value) {
         try {
-          const {status} =await Authenticate(value)
-          if (status !==200) {
-            toast.loading("Verifying")
-          }
-          return status ===200
+          // Show loading toast
+          toast.loading("Verifying...");
+          const { status } = await Authenticate(value);
+          // Hide loading toast after request completes
+          toast.dismiss();
+          return status === 200;
         } catch (error) {
-          toast.error("User does not exist...!")
-          return false
+          // Hide loading toast if there's an error
+          toast.dismiss();
+          toast.error("User does not exist...!");
+          return false;
         }
       }
     }
   )
 });
+
 export const passwordValidateSchema = yup.object({
   password:yup
     .string()
