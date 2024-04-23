@@ -14,7 +14,7 @@ import useFetch from "../hooks/fetch.hooks";
 import avatar from "../assets/13369169.jpg";
 import { verifyPassword } from "../routes/apiRoute";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { InfinitySpin} from "react-loader-spinner";
 
 export const Password = () => {
   const { userdata } = useContext(UserContext);
@@ -61,11 +61,17 @@ export const Password = () => {
 
   if (isLoading) {
     return (
-      
-       <div className='vh-100 w-100 justify-content-center align-items-center d-flex'>
-         <CircularProgress />
-       </div>
-      
+      <div className="vh-100 w-100 justify-content-center align-items-center d-flex">
+        <InfinitySpin
+          visible={true}
+          height="400"
+          width="400"
+          color="#000"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
+      </div>
     );
   }
 
@@ -74,7 +80,7 @@ export const Password = () => {
   }
 
   return (
-    <>
+    <div className="back">
       <Container
         className="d-flex  justify-content-center align-items-lg-center px-0 vh-100"
         fluid>
@@ -152,6 +158,6 @@ export const Password = () => {
           </div>
         </div>
       </Container>
-    </>
+    </div>
   );
 };

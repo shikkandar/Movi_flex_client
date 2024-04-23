@@ -7,9 +7,16 @@
 
 body{
     font-family: 'Poppins', sans-serif;
+    
+}
+.back{
     background-image: url(./assets/Background.png);
 }
 
+.notFound{
+    background-image: url(./assets/blue.png);
+    background-color: #fff;
+}
 .text{
     width: 350px;
 
