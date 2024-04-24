@@ -77,6 +77,13 @@ export const resetSchema = yup.object({
     .required("Confirm password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
+export const profileSchema = yup.object({
+  email: yup
+  .string()
+  .required("Email is required")
+  .trim()
+  .matches(emailRegex, "Enter a valid email")
+});
 
 async function validateSchema(schema, values) {
   try {
@@ -117,3 +124,4 @@ export const userValidate = (values) => validateUserSchema(userSchema, values);
 export const passwordValidate = (values) => validateSchema(passwordValidateSchema, values);
 export const recoveryValidate = (values) => validateSchema(recoverySchema, values);
 export const resetValidate = (values) => validateSchema(resetSchema, values);
+export const profileValidate = (values) => validateSchema(profileSchema, values);

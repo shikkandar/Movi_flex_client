@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {jwtDecode} from 'jwt-decode'
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export async function registerUser(credentials) {
@@ -109,4 +109,12 @@ export async function resetPassword({username,password,confirm_pwd}) {
   } catch (error) {
     return Promise.reject(error);
   }
+}
+
+export async function getUsername() {
+  const token= localStorage.getItem('token');
+  if (!token) return Promise.reject("Cannot find token")
+
+  let decode=jwtDecode(token)
+  return decode;
 }
