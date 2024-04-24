@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { Button, Image } from "react-bootstrap";
 import avatar from "../assets/13369169.jpg";
@@ -17,13 +17,13 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { profileValidate } from "../schemas/inputValidation";
 import { Toaster } from "react-hot-toast";
 import useFetch from "../hooks/fetch.hooks";
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from "jwt-decode";
 
 export const Profile = () => {
   const [{ isLoading, apiData, serverError }] = useFetch();
-  console.log(apiData);
   const [edit, setEdit] = useState(false);
   const [file, setFile] = useState();
+
   function enableEdit() {
     setEdit(!edit);
   }
@@ -33,6 +33,35 @@ export const Profile = () => {
       setFile(base64);
     }
   };
+
+  useEffect(() => {
+    if (apiData) {
+      // Update the formik initial values when apiData is available
+      formik.setValues({
+        firstname: apiData.firstName || "",
+        lastname: apiData.lastName || "",
+        email: apiData.email || "",
+        phone: apiData.mobile || "",
+        address:
+          apiData.addresses.length > 0
+            ? apiData.addresses[0].address || ""
+            : "",
+        city:
+          apiData.addresses.length > 0 ? apiData.addresses[0].city || "" : "",
+        state:
+          apiData.addresses.length > 0 ? apiData.addresses[0].state || "" : "",
+        country:
+          apiData.addresses.length > 0
+            ? apiData.addresses[0].country || ""
+            : "",
+        zipcode:
+          apiData.addresses.length > 0
+            ? apiData.addresses[0].zipcode || ""
+            : "",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiData]);
 
   const formik = useFormik({
     initialValues: {
@@ -63,18 +92,24 @@ export const Profile = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       console.log(values);
-      enableEdit()
+      enableEdit();
     },
   });
 
+  if (isLoading) {
+    return <h1 className="text-2xl font-bold">isLoding</h1>;
+  }
+  if (serverError) {
+    return <h1 className="text-xl text-red-500">{serverError.message}</h1>;
+  }
   return (
     <div>
       <Toaster
-          position="top-center"
-          reverseOrder={false}
-        />
+        position="top-center"
+        reverseOrder={false}
+      />
       <Header />
-      
+
       <div className="bg-dark">
         <div
           className="d-flex container img-con2"
@@ -83,7 +118,7 @@ export const Profile = () => {
             {!edit ? (
               <Image
                 className="img2"
-                src={avatar}
+                src={apiData?.profile || avatar}
                 fluid
               />
             ) : (
@@ -92,7 +127,7 @@ export const Profile = () => {
                   <div>
                     <Image
                       fluid
-                      src={file || avatar}
+                      src={file || apiData?.profile || avatar}
                       className="img2"
                       alt="avatar"
                     />
@@ -128,8 +163,8 @@ export const Profile = () => {
             )}
           </div>
           <div className="mx-3 mt-lg-5 mt-4">
-            <h1 className="text-white">Andy Horwitz</h1>
-            <h3 className="text-dark">location</h3>
+            <h1 className="text-white">{apiData?.username}</h1>
+            <h3 className="text-dark">{apiData?.city || "location"}</h3>
           </div>
         </div>
       </div>
@@ -188,7 +223,7 @@ export const Profile = () => {
                     className="w-100 w-lg-50 mt-lg-4 mt-0"
                     label="DOB"
                     value={formik.values.dob}
-                    onChange={(date) => formik.setFieldValue('dob', date)} // Update the dob field in formik state
+                    onChange={(date) => formik.setFieldValue("dob", date)} // Update the dob field in formik state
                     disabled={!edit}
                     sx={textFieldStyles}
                   />
