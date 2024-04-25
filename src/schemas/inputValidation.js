@@ -25,53 +25,43 @@ export const registerSchema = yup.object({
     .required("Email is required")
     .trim()
     .matches(emailRegex, "Enter a valid email"),
-  password:passwordSchema,
+  password: passwordSchema,
   confirm_pwd: yup
     .string()
     .required("Confirm password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 export const userSchema = yup.object({
-  username: yup
-  .string()
-  .test(
-    "username-existence","",
-    async (value) => {
-      if (value.trim() === "") {
-        toast.error("Please enter a valid username");
+  username: yup.string().test("username-existence", "", async (value) => {
+    if (value.trim() === "") {
+      toast.error("Please enter a valid username");
+      return false;
+    } else if (value) {
+      try {
+        // Show loading toast
+        toast.loading("Verifying...");
+        const { status } = await Authenticate(value);
+        // Hide loading toast after request completes
+        toast.dismiss();
+        return status === 200;
+      } catch (error) {
+        // Hide loading toast if there's an error
+        toast.dismiss();
+        toast.error("User does not exist...!");
         return false;
-      } else if (value) {
-        try {
-          // Show loading toast
-          toast.loading("Verifying...");
-          const { status } = await Authenticate(value);
-          // Hide loading toast after request completes
-          toast.dismiss();
-          return status === 200;
-        } catch (error) {
-          // Hide loading toast if there's an error
-          toast.dismiss();
-          toast.error("User does not exist...!");
-          return false;
-        }
       }
     }
-  )
+  }),
 });
 
 export const passwordValidateSchema = yup.object({
-  password:yup
-    .string()
-    .required("Please enter a password")
-    
+  password: yup.string().required("Please enter a password"),
 });
 export const recoverySchema = yup.object({
-  otp:yup
-    .string()
-    .required("OTP is required")
+  otp: yup.string().required("OTP is required"),
 });
 export const resetSchema = yup.object({
-  password:passwordSchema,
+  password: passwordSchema,
   confirm_pwd: yup
     .string()
     .required("Confirm password is required")
@@ -79,14 +69,19 @@ export const resetSchema = yup.object({
 });
 export const profileSchema = yup.object({
   email: yup
-  .string()
-  .required("Email is required")
-  .trim()
-  .matches(emailRegex, "Enter a valid email")
+    .string()
+    .required("Email is required")
+    .trim()
+    .matches(emailRegex, "Enter a valid email"),
 });
 export const adminSchema = yup.object({
   username: usernameSchema,
-  password:passwordSchema,
+  password: passwordSchema,
+});
+export const adminDashSchema = yup.object({
+  theatter: yup.string().required("Theatter is required"),
+  moviname: yup.string().required("Movi Name is required"),
+  price: yup.string().required("Price Name is required"),
 });
 
 async function validateSchema(schema, values) {
@@ -125,8 +120,9 @@ async function validateUserSchema(schema, values) {
 // Export specific validation functions
 export const registerValidate = (values) =>validateSchema(registerSchema, values);
 export const userValidate = (values) => validateUserSchema(userSchema, values);
-export const passwordValidate = (values) => validateSchema(passwordValidateSchema, values);
-export const recoveryValidate = (values) => validateSchema(recoverySchema, values);
+export const passwordValidate = (values) =>validateSchema(passwordValidateSchema, values);
+export const recoveryValidate = (values) =>validateSchema(recoverySchema, values);
 export const resetValidate = (values) => validateSchema(resetSchema, values);
 export const adminValidate = (values) => validateSchema(adminSchema, values);
-export const profileValidate = (values) => validateSchema(profileSchema, values);
+export const profileValidate = (values) =>validateSchema(profileSchema, values);
+export const adminDashValidate = (values) =>validateSchema(adminDashSchema, values);
