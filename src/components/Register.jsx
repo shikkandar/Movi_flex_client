@@ -11,11 +11,10 @@ import { registerValidate } from "../schemas/inputValidation";
 import toast, { Toaster } from "react-hot-toast";
 import { registerUser } from "../routes/apiRoute";
 import avatar from "../assets/13369169.jpg";
-import convertToBase64 from "../helper/convert"
+import convertToBase64 from "../helper/convert";
 
 export const Register = () => {
-
-  const [file,setFile]=useState()
+  const [file, setFile] = useState();
   const [passShow, setPassShow] = useState(false);
   const [CpassShow, setCPassShow] = useState(false);
   const navigate = useNavigate();
@@ -41,23 +40,20 @@ export const Register = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       const completeValues = { ...values, profile: file || "" };
-    
-      toast.promise(
-        registerUser(completeValues),
-        {
-          loading: "Registering...",
-          success: (data) => {
-            toast.success(data.msg || "Registered successfully!");
-            navigate('/');
-            return "Registration successful!";
-          },
-          error: (err) => {
-            const errorMessage = err.toString().replace("Error: ", "");
-            // Return the error message directly without displaying it again
-            return errorMessage;
-          },
-        })
-  
+
+      toast.promise(registerUser(completeValues), {
+        loading: "Registering...",
+        success: (data) => {
+          toast.success(data.msg || "Registered successfully!");
+          navigate("/");
+          return "Registration successful!";
+        },
+        error: (err) => {
+          const errorMessage = err.toString().replace("Error: ", "");
+          // Return the error message directly without displaying it again
+          return errorMessage;
+        },
+      });
     },
   });
   const onUpload = async (e) => {
@@ -94,16 +90,14 @@ export const Register = () => {
                 <div className="d-flex justify-content-center ">
                   <label htmlFor="profile">
                     <div className="img-con">
-                    <img
-                      src={file || avatar}
-                      className="img"
-                      alt="avatar"
-                    />
-                    <div className="upload">
-                      <h6>
-                      Upload
-                      </h6>
-                    </div>
+                      <img
+                        src={file || avatar}
+                        className="img"
+                        alt="avatar"
+                      />
+                      <div className="upload">
+                        <h6>Upload</h6>
+                      </div>
                     </div>
                   </label>
                   <input
@@ -172,8 +166,10 @@ export const Register = () => {
                     variant="outlined"
                     className="d-flex"
                     value={formik.values.confirm_pwd}
-                    onChange={formik.handleChange} // This line was missing
-                    sx={textFieldStyles}></TextField>
+                    onChange={formik.handleChange}
+                    sx={textFieldStyles}
+                  />
+
                   <div
                     style={{ position: "absolute", right: "5px", top: "15%" }}
                     onClick={() => setCPassShow(!CpassShow)}>

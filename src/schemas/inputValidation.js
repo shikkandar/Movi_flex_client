@@ -84,6 +84,10 @@ export const profileSchema = yup.object({
   .trim()
   .matches(emailRegex, "Enter a valid email")
 });
+export const adminSchema = yup.object({
+  username: usernameSchema,
+  password:passwordSchema,
+});
 
 async function validateSchema(schema, values) {
   try {
@@ -124,4 +128,5 @@ export const userValidate = (values) => validateUserSchema(userSchema, values);
 export const passwordValidate = (values) => validateSchema(passwordValidateSchema, values);
 export const recoveryValidate = (values) => validateSchema(recoverySchema, values);
 export const resetValidate = (values) => validateSchema(resetSchema, values);
+export const adminValidate = (values) => validateSchema(adminSchema, values);
 export const profileValidate = (values) => validateSchema(profileSchema, values);

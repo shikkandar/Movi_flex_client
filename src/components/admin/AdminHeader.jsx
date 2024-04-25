@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,20 +8,18 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { NavLink, useNavigate } from "react-router-dom";
-import useFetch from "../hooks/fetch.hooks";
-import avatar from "../assets/avatar_2.jpeg";
-import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import { Image } from "react-bootstrap";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
+import { deepPurple } from "@mui/material/colors";
+import { UserContext } from "../../context/ContextProvider";
 
-export const Header = () => {
-  const [{ apiData, isLoading, auth }] = useFetch();
-  const pages = ["Dashboard", "Pricing", auth===true ?"Admin":null];
-  const settings = ["Profile", "Logout"];
+export const AdminHeader = () => {
+
+  const { adminName } = useContext(UserContext);
+  const settings = ["Logout"];
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -41,22 +39,9 @@ export const Header = () => {
     setAnchorElUser(null);
   };
 
-  function handleProfileClick() {
-    navigate("/profile");
-  }
-  function handleDashboardClick() {
-    navigate("/dashbord");
-  }
-  function handleAdminClick() {
-    navigate("/admin");
-  }
   function handleLogoutClick() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("admintoken");
     navigate("/");
-  }
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
   }
 
   return (
@@ -111,49 +96,17 @@ export const Header = () => {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
-              }}>
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+              }}></Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                  switch (page) {
-                    case "Dashboard":
-                      handleDashboardClick();
-                      break;
-                    case "Admin":
-                      handleAdminClick();
-                      break;
-                    default:
-                      handleCloseNavMenu();
-                      break;
-                  }
-                }}
-                sx={{ my: 2, color: "black", display: "block" }}>
-                {page}
-              </Button>
-            ))}
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src={apiData && apiData.profile ? apiData.profile : avatar}
-                />
+                <Avatar sx={{ bgcolor: deepPurple[500] }}>A</Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -176,9 +129,6 @@ export const Header = () => {
                   key={setting}
                   onClick={() => {
                     switch (setting) {
-                      case "Profile":
-                        handleProfileClick();
-                        break;
                       case "Logout":
                         handleLogoutClick();
                         break;

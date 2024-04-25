@@ -111,10 +111,27 @@ export async function resetPassword({username,password,confirm_pwd}) {
   }
 }
 
+/**Get User name from token */
 export async function getUsername() {
   const token= localStorage.getItem('token');
   if (!token) return Promise.reject("Cannot find token")
 
   let decode=jwtDecode(token)
   return decode;
+}
+
+/**Update user profile funtion */
+
+export async function updateUser(res) {
+  try {
+    const token = localStorage.getItem("token");
+
+    const data = await axios.put(`/api/updateuser`, res, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log(data);
+    return Promise.resolve({ data });
+  } catch (error) {
+    return Promise.reject({ error: "Couldn't update profile...!" });
+  }
 }

@@ -10,6 +10,8 @@ import { Register } from "./components/Register";
 import './App.css'
 import { Dashbord } from "./components/Dashbord";
 import { UnAuthorizeUser,ProtectRoute, AuthorizeUser } from "./middleware/AuthorizeUser";
+import { Admin } from "./components/admin/Admin";
+import { AdminDash } from "./components/admin/AdminDash";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
   {
     path: "/dashbord",
     element: <UnAuthorizeUser><Dashbord/></UnAuthorizeUser>,
+  },
+  {
+    path: "/admin",
+    element: <UnAuthorizeUser><Admin/></UnAuthorizeUser>,
+  },
+  {
+    path: "/admin/dash",
+    element: <UnAuthorizeUser><AdminDash/></UnAuthorizeUser>,
   },
   {
     path: "*",

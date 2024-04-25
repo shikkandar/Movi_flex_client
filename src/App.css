@@ -84,7 +84,7 @@ body{
     filter: blur(10px); /* Add blur effect */
 }
 .profile-form{
-    margin-top: 200px;
+    margin-top: 130px;
     width: 100%;
 }
 .img:hover{

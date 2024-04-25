@@ -15,9 +15,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useFormik } from "formik";
 import { DatePicker } from "@mui/x-date-pickers";
 import { profileValidate } from "../schemas/inputValidation";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import useFetch from "../hooks/fetch.hooks";
 import { jwtDecode } from "jwt-decode";
+import { updateUser } from "../routes/apiRoute";
 
 export const Profile = () => {
   const [{ isLoading, apiData, serverError }] = useFetch();
@@ -36,37 +37,30 @@ export const Profile = () => {
 
   useEffect(() => {
     if (apiData) {
-      // Update the formik initial values when apiData is available
       formik.setValues({
-        firstname: apiData.firstName || "",
-        lastname: apiData.lastName || "",
+        username: apiData.username || "",
         email: apiData.email || "",
-        phone: apiData.mobile || "",
-        address:
-          apiData.addresses.length > 0
-            ? apiData.addresses[0].address || ""
-            : "",
-        city:
-          apiData.addresses.length > 0 ? apiData.addresses[0].city || "" : "",
-        state:
-          apiData.addresses.length > 0 ? apiData.addresses[0].state || "" : "",
-        country:
-          apiData.addresses.length > 0
-            ? apiData.addresses[0].country || ""
-            : "",
-        zipcode:
-          apiData.addresses.length > 0
-            ? apiData.addresses[0].zipcode || ""
-            : "",
+        firstName: apiData.firstName || "",
+        lastName: apiData.lastName || "",
+        phone: apiData.phone || "",
+        address: apiData.address || "",
+        city: apiData.city || "",
+        state: apiData.state || "",
+        country: apiData.country || "",
+        zipcode: apiData.zipcode || "",
+        profile: apiData.profile || "",
+        gender: apiData.gender || "",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiData]);
+
+  const dob=apiData?.dob.split("T")[0]
+
 
   const formik = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       gender: "",
       dob: null,
       email: "",
@@ -90,9 +84,16 @@ export const Profile = () => {
     },
     validateOnBlur: false,
     validateOnChange: false,
-    onSubmit: (values) => {
-      console.log(values);
-      enableEdit();
+    onSubmit: async (values) => {
+      values = Object.assign(values, {
+        profile: file || apiData?.profile || "",
+      });
+      let updatePromise = updateUser(values);
+      toast.promise(updatePromise, {
+        loading: "Updating...",
+        success: <b>Update Successfully...!</b>,
+        error: <b>Update failed...!</b>,
+      });
     },
   });
 
@@ -118,7 +119,7 @@ export const Profile = () => {
             {!edit ? (
               <Image
                 className="img2"
-                src={apiData?.profile || avatar}
+                src={file || apiData?.profile || avatar}
                 fluid
               />
             ) : (
@@ -162,11 +163,16 @@ export const Profile = () => {
               </Button>
             )}
           </div>
-          <div className="mx-3 mt-lg-5 mt-4">
-            <h1 className="text-white">{apiData?.username}</h1>
-            <h3 className="text-dark">{apiData?.city || "location"}</h3>
+          <div className="mx-3 mt-lg-5 mt-5 ">
+            <h1 className="text-white text-capitalize">{apiData?.username}</h1>
+            <h3 className="text-dark text-capitalize  ">
+              {apiData?.city || "location"}
+            </h3>
           </div>
         </div>
+        <div
+          className="w-100"
+          style={{ height: "70px", backgroundColor: "#E0E0E0" }}></div>
       </div>
       <Container>
         <Form
@@ -176,11 +182,11 @@ export const Profile = () => {
           <div className="d-flex flex-lg-row flex-column gap-lg-2">
             <TextField
               id="firstName-outlined-basic"
-              name="firstname"
+              name="firstName"
               label="First Name"
               variant="outlined"
               sx={textFieldStyles}
-              value={formik.values.firstname}
+              value={formik.values.firstName}
               onChange={formik.handleChange}
               className="my-2 w-100 w-lg-50"
               disabled={!edit}
@@ -188,11 +194,11 @@ export const Profile = () => {
 
             <TextField
               id="lastName-outlined-basic"
-              name="lastname"
+              name="lastName"
               label="Last Name"
               variant="outlined"
               sx={textFieldStyles}
-              value={formik.values.lastname}
+              value={formik.values.lastName}
               onChange={formik.handleChange}
               className="my-2 w-100 w-lg-50"
               disabled={!edit}
@@ -204,7 +210,7 @@ export const Profile = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                className="mr-2 w-100 w-lg-50"
+                className="mr-2 w-100 mt-1 w-lg-50"
                 label="Gender"
                 sx={textFieldStyles}
                 disabled={!edit}
@@ -216,19 +222,33 @@ export const Profile = () => {
                 <MenuItem value={"others"}>Others</MenuItem>
               </Select>
             </div>
-            <div className=" m-y2 w-100 w-lg-50">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    className="w-100 w-lg-50 mt-lg-4 mt-0"
-                    label="DOB"
-                    value={formik.values.dob}
-                    onChange={(date) => formik.setFieldValue("dob", date)} // Update the dob field in formik state
-                    disabled={!edit}
-                    sx={textFieldStyles}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+            <div className="d-flex align-items-center  w-100 w-lg-50">
+              {edit ? (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      className="w-100 w-lg-50 mt-lg-4 mt-0"
+                      label="DOB"
+                      name="dob"
+                      value={formik.values.dob}
+                      onChange={(date) => formik.setFieldValue("dob", date)} // Update the dob field in formik state
+                      disabled={!edit}
+                      sx={textFieldStyles}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              ) : (
+                <TextField
+                  
+                  label="DOB"
+                  variant="outlined"
+                  sx={textFieldStyles}
+                  value={dob}
+                  onChange={formik.handleChange}
+                  className="w-100 w-lg-50 mt-lg-4 mt-0"
+                  disabled={!edit}
+                />
+              )}
             </div>
           </div>
           <div className="d-flex flex-lg-row flex-column gap-lg-2">
@@ -318,6 +338,10 @@ export const Profile = () => {
           <div className="d-flex">
             <Button
               type="submit"
+              onClick={() => {
+                formik.handleSubmit();
+                enableEdit();
+              }}
               className="my-2 p-3 w-100"
               variant="dark"
               disabled={!edit}>

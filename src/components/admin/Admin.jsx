@@ -1,33 +1,33 @@
 import React, { useContext, useState } from "react";
+import { Header } from "../Header";
+import { Link, useNavigate } from "react-router-dom";
+import img from "../../assets/L_log.jpg";
+import { textFieldStyles } from "../../cutomCss/inputField"; // Make sure the path is correct
+import { useFormik } from "formik";
+import Land_img from "../../assets/land.jpg";
+import toast, { Toaster } from "react-hot-toast";
+import { adminValidate } from "../../schemas/inputValidation";
 import { Button, Container, Form, Image } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Link, useNavigate } from "react-router-dom";
-import img from "../assets/L_log.jpg";
-import { textFieldStyles } from "../cutomCss/inputField"; // Make sure the path is correct
-import { useFormik } from "formik";
-import Land_img from "../assets/land.jpg";
-import toast, { Toaster } from "react-hot-toast";
-import { passwordValidate } from "../schemas/inputValidation";
-import { UserContext } from "../context/ContextProvider";
-import useFetch from "../hooks/fetch.hooks";
-import avatar from "../assets/13369169.jpg";
-import { verifyPassword } from "../routes/apiRoute";
-import { InfinitySpin} from "react-loader-spinner";
+import useFetch from "../../hooks/fetch.hooks";
+import { InfinitySpin } from "react-loader-spinner";
+import { loginAdmin } from "../../routes/adminRoute";
+import { UserContext } from "../../context/ContextProvider";
+export const Admin = () => {
 
-export const Password = () => {
-  const { userdata } = useContext(UserContext);
-
-  const [{ isLoading, apiData, serverError }] = useFetch(`user/${userdata}`);
-  console.log(userdata);
+  const { setAdminName } = useContext(UserContext);
+  const [{ isLoading, apiData, serverError }] = useFetch();
+  console.log(apiData);
   const [passShow, setPassShow] = useState(false);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
+      username: "",
       password: "",
     },
     validate: async (values) => {
-      const validationResults = await passwordValidate(values);
+      const validationResults = await adminValidate(values);
       if (!validationResults.success) {
         let errors = {};
         validationResults.errors.forEach((error) => {
@@ -40,20 +40,21 @@ export const Password = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      let loginPromise = verifyPassword({
-        username: apiData.username,
-        password: values.password,
-      });
-      toast.promise(loginPromise, {
+      setAdminName(values.username)
+      let loginPromise=loginAdmin({
+        username:values.username,
+        password:values.password
+      })
+      toast.promise(loginPromise,{
         loading: "Checkling...",
         success: <b>Login Successfully...!</b>,
         error: <b>Password not Match...!</b>,
-      });
+      })
       loginPromise.then((res) => {
         let { token } = res.data;
-        localStorage.setItem("token", token);
+        localStorage.setItem("admintoken", token);
 
-        navigate("/dashbord");
+        navigate("/admin/dash");
       });
     },
   });
@@ -80,6 +81,7 @@ export const Password = () => {
 
   return (
     <div className="back">
+      <Header />
       <Container
         className="d-flex  justify-content-center align-items-lg-center px-0 vh-100"
         fluid>
@@ -102,19 +104,20 @@ export const Password = () => {
           <div className="d-flex  justify-content-center align-items-center px-lg-5 px-0">
             <Form onSubmit={formik.handleSubmit}>
               <Box className="d-flex flex-column">
-                <h2 className="mt-3 mt-0 text-center">{`Welcome back to ${userdata}`}</h2>
-                <div className="d-flex justify-content-center ">
-                  <label htmlFor="profile">
-                    <img
-                      src={apiData?.profile || avatar}
-                      className="img1"
-                      alt="avatar"
-                    />
-                  </label>
+                <h2 className="mt-3 mt-0 text-center">{`Welcome back Admin`}</h2>
+                <div className="mt-4 ">
+                  <TextField
+                    id="outlined-basic-username"
+                    name="username"
+                    label="User Name"
+                    variant="outlined"
+                    className="text d-flex"
+                    value={formik.values.username}
+                    onChange={formik.handleChange} 
+                    sx={textFieldStyles}
+                  />
                 </div>
-                <div
-                  className="mt-2"
-                  style={{ position: "relative" }}>
+                <div className="mt-4" style={{ position: "relative" }}>
                   <TextField
                     id="outlined-basic-password"
                     name="password"
@@ -125,9 +128,7 @@ export const Password = () => {
                     value={formik.values.password}
                     onChange={formik.handleChange} // This line was missing
                     sx={textFieldStyles}></TextField>
-                  <div
-                    style={{ position: "absolute", right: "5px", top: "15%" }}
-                    onClick={() => setPassShow(!passShow)}>
+                  <div style={{ position: "absolute", right: "5px", top: "15%" }} onClick={() => setPassShow(!passShow)}>
                     {!passShow ? (
                       <Button variant="dark">Show</Button>
                     ) : (

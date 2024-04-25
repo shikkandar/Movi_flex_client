@@ -3,21 +3,22 @@ import { useEffect, useState } from "react";
 import { getUsername } from "../routes/apiRoute";
 
 export default function useFetch(query){
-  const [getData, setData] = useState({ isLoading : false, apiData: undefined, status: null, serverError: null })
+  const [getData, setData] = useState({ isLoading : false, apiData: undefined, status: null, serverError: null,auth:undefined })
 
   useEffect(() => {
 
       const fetchData = async () => {
           try {
               setData(prev => ({ ...prev, isLoading: true}));
-
-              const { username } = !query ? await getUsername() : '';
+            
+              const {auth, username } = !query ? await getUsername() : '';
               
               const { data, status } = !query ? await axios.get(`/api/user/${username}`) : await axios.get(`/api/${query}`);
 
               if(status === 201){
                   setData(prev => ({ ...prev, isLoading: false}));
-                  setData(prev => ({ ...prev, apiData : data, status: status }));
+                  setData(prev => ({ ...prev, apiData : data, status: status ,auth}));
+                  
               }
 
               setData(prev => ({ ...prev, isLoading: false}));
