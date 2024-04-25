@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { toast } from "react-hot-toast";
 import { Authenticate } from "../routes/apiRoute";
 
+
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex =
   /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
@@ -79,9 +80,10 @@ export const adminSchema = yup.object({
   password: passwordSchema,
 });
 export const adminDashSchema = yup.object({
-  theatter: yup.string().required("Theatter is required"),
+  name: yup.string().required("Theatter is required"),
   moviname: yup.string().required("Movi Name is required"),
   price: yup.string().required("Price Name is required"),
+  description: yup.string().required("Price Name is required"),
 });
 
 async function validateSchema(schema, values) {
