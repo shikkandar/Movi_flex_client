@@ -20,7 +20,7 @@ import logo from "../assets/logo.png";
 
 export const Header = () => {
   const [{ apiData, isLoading, auth }] = useFetch();
-  const pages = ["Dashboard", "Pricing", auth===true ?"Admin":null];
+  const pages = ["Dashboard", "Pricing", auth === true ? "Admin" : undefined].filter(Boolean);
   const settings = ["Profile", "Logout"];
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);

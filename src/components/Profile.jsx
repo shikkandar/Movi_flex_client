@@ -17,7 +17,6 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { profileValidate } from "../schemas/inputValidation";
 import toast, { Toaster } from "react-hot-toast";
 import useFetch from "../hooks/fetch.hooks";
-import { jwtDecode } from "jwt-decode";
 import { updateUser } from "../routes/apiRoute";
 
 export const Profile = () => {
@@ -54,7 +53,8 @@ export const Profile = () => {
     }
   }, [apiData]);
 
-  const dob=apiData?.dob.split("T")[0]
+  const dob = apiData?.dob?.split("T")[0] || "";
+
 
 
   const formik = useFormik({

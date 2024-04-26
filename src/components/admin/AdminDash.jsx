@@ -50,6 +50,7 @@ export const AdminDash = () => {
       values.moviname = "";
       values.price = "";
       values.description = "";
+      window.location.reload()
     },
   });
   
@@ -61,6 +62,7 @@ export const AdminDash = () => {
       success: <b>Update Successfully...!</b>,
       error: <b>Update failed...!</b>,
     });
+    window.location.reload()
     console.log(values);
   };
 
@@ -75,7 +77,7 @@ export const AdminDash = () => {
     };
 
     fetchData();
-  }, [formik.handleSubmit]);
+  }, []);
 
   return (
     <div>
