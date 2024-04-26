@@ -32,3 +32,18 @@ export default function useFetch(query){
 
   return [getData, setData];
 }
+export async function useExpire(exp) {
+    useEffect(() => {
+        if (exp > 0) { // Ensure exp is valid
+            const expirationTimeInMilliseconds = exp * 1000;
+            const currentTime = Date.now();
+            const countdown = expirationTimeInMilliseconds - currentTime;
+
+            if (countdown > 0) { // Ensure countdown is positive
+                setTimeout(() => {
+                    window.location.reload();
+                }, countdown);
+            }
+        }
+    }, [exp]); 
+}
