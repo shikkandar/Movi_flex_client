@@ -13,6 +13,7 @@ import { UnAuthorizeUser,ProtectRoute, AuthorizeUser } from "./middleware/Author
 import { Admin } from "./components/admin/Admin";
 import { AdminDash } from "./components/admin/AdminDash";
 import {  ProductRegister, UnAuthorizeAdmin } from "./middleware/AuthorizeAdmin";
+import { TicketBook } from "./components/booking/TicketBook";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/dash",
     element: <UnAuthorizeAdmin><AdminDash/></UnAuthorizeAdmin>,
+  },
+  {
+    path: "/tiket_booking",
+    element: <TicketBook/>,
   },
   {
     path: "*",

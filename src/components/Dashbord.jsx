@@ -9,9 +9,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Header } from "./Header";
 import { InfinitySpin } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
+
 export const Dashbord = () => {
 
+  const navigate=useNavigate()
   const [showMoreIndex, setShowMoreIndex] = useState(null);
 
   const toggleShowMore = (index) => {
@@ -31,8 +34,10 @@ export const Dashbord = () => {
 
     fetchData();
   }, []);
-
-  if(!theaters){
+  const handleBook=()=>{
+    navigate('/tiket_booking')
+  }
+  if (!theaters) {
     return (
       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
         <InfinitySpin
@@ -50,8 +55,7 @@ export const Dashbord = () => {
   return (
     <div>
       <Header />
-      <Container
-        className="my-5 d-flex gap-3 justify-content-center flex-wrap">
+      <Container className="my-5 d-flex gap-3 justify-content-center flex-wrap">
         {theaters.map(
           (val, i) =>
             val.runningMovies === false && (
@@ -77,6 +81,7 @@ export const Dashbord = () => {
                     component="div">
                     {val.name}
                   </Typography>
+
                   <Typography
                     variant="body2"
                     color="text.secondary">
@@ -88,6 +93,13 @@ export const Dashbord = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
+                  <Button
+                    color="success"
+                    variant="contained"
+                    onClick={() => handleBook(i)}
+                    size="small">
+                    Book Now
+                  </Button>
                   <Button
                     onClick={() => toggleShowMore(i)}
                     size="small">
