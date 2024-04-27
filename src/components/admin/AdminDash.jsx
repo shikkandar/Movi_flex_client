@@ -6,19 +6,23 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-import { Button, Container, Form } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
+import Button from "@mui/material/Button";
 import { adminDashValidate } from "../../schemas/inputValidation";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
-import Card from "react-bootstrap/Card";
 import movi_poster from "../../assets/marvel-avengers-comics.webp";
 import { updateMoviList } from "../../routes/adminRoute";
+import Card from "@mui/material/Card"; // Importing Card from @mui/material
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+
 export const AdminDash = () => {
   const [theaters, setTheaters] = useState([]);
-  const [showMore, setShowMore] = useState(false);
-  // console.log(
-  //   theaters
-  // );
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -55,7 +59,6 @@ export const AdminDash = () => {
       values.price = "";
       values.poster = "";
       values.description = "";
-      // window.location.reload()
     },
   });
 
@@ -75,7 +78,6 @@ export const AdminDash = () => {
       success: <b>Update Successfully...!</b>,
       error: <b>Update failed...!</b>,
     });
-    // window.location.reload()
     console.log(values);
   };
 
@@ -91,6 +93,10 @@ export const AdminDash = () => {
 
     fetchData();
   }, []);
+  const [showMoreIndex, setShowMoreIndex] = useState(null);
+  const toggleShowMore = (index) => {
+    setShowMoreIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   return (
     <div>
@@ -104,7 +110,7 @@ export const AdminDash = () => {
           onSubmit={formik.handleSubmit}
           className="d-flex justify-content-center align-items-end gap-2 flex-wrap">
           <div>
-            <InputLabel id="demo-simple-select-label">Theatter</InputLabel>
+            <InputLabel id="demo-simple-select-label">Theater</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -131,7 +137,7 @@ export const AdminDash = () => {
               name="moviname"
               style={{ minWidth: "200px" }}
               onChange={formik.handleChange}
-              label="Movi-name"
+              label="Movie-name"
               value={formik.values.moviname}
               variant="outlined"
             />
@@ -143,7 +149,7 @@ export const AdminDash = () => {
               type="url"
               style={{ minWidth: "200px" }}
               onChange={formik.handleChange}
-              label="Movi-Poster"
+              label="Movie-Poster"
               value={formik.values.poster}
               variant="outlined"
             />
@@ -164,7 +170,7 @@ export const AdminDash = () => {
             <TextField
               style={{ minWidth: "200px" }}
               id="description"
-              label="Descrption"
+              label="Description"
               name="description"
               variant="filled"
               onChange={formik.handleChange}
@@ -173,53 +179,70 @@ export const AdminDash = () => {
           </div>
           <Button
             type="submit"
-            style={{ height: "55px", width: "55px" }}
-            variant="success">
+            style={{ height: "55px", width: "40px" }}
+            variant="contained"
+            color="success">
             +
           </Button>
         </Form>
       </Container>
-      <Container className="mt-5">
+      <Container
+        className="mt-5 d-flex gap-3 justify-content-center flex-wrap"
+        fluid>
         {theaters.map(
           (val, i) =>
             val.runningMovies === false && (
               <Card
-                className="my-5"
-                key={i}>
-                <Card.Img
-                  variant="top"
-                  src={val.poster || movi_poster}
+                key={i}
+                sx={{ maxWidth: 600 }}>
+                <CardMedia
+                  sx={{ height: 0, paddingTop: "56.25%" }} // Maintain aspect ratio (16:9)
+                  image={val.poster}
+                  title="Movi Poster"
+                  style={{ width: "100%", height: "auto" }} // Make image fluid
                 />
-                <Card.Title
-                  className="mx-3"
-                  style={{ fontSize: "28px" }}>
-                  {val.moviname}
-                </Card.Title>
-                <Card.Body>
-                  <Card.Text>
-                    <b>{"Theater Name"}:</b> {val.name} {"Theater"}
-                    <br />
-                    <b>{"Price"}:</b> {val.price}
-                  </Card.Text>
-                  <Card.Text>
-                    <b>Description:</b>
-                    {showMore
-                      ? val.description
-                      : val.description.substring(0, 250)}
 
-                    <b style={{textDecoration:"underline",cursor:"pointer"}}
-                      onClick={() => {
-                        setShowMore(!showMore);
-                      }}>
-                      {showMore ? "Read less" : "Read more"}
-                    </b>
-                  </Card.Text>
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div">
+                    {val.moviname}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    component="div">
+                    {val.name} {"Theater"}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    component="div">
+                    {"Price"} : <b>₹{val.price}</b>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary">
+                    <b>Description:</b>{" "}
+                    {showMoreIndex === i
+                    ? val.description
+                    : val.description.substring(0, 250)}
+                  {showMoreIndex !== i ? "..." : ""}
+                  </Typography>
+                </CardContent>
+                <CardActions>
                   <Button
+                    color="error"
+                    variant="contained"
                     onClick={() => deletemovi(val.name)}
-                    variant="danger">
+                    size="small">
                     Delete
                   </Button>
-                </Card.Body>
+                  <Button
+                  onClick={() => toggleShowMore(i)}
+                  size="small">
+                  {showMoreIndex === i ? "Show Less" : "Read More"}
+                </Button>
+                </CardActions>
               </Card>
             )
         )}
