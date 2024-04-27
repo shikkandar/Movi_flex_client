@@ -33,7 +33,7 @@ export const Dashbord = () => {
     <div>
       <Header />
       <Container
-        className="mt-5 d-flex gap-3 justify-content-center flex-wrap">
+        className="my-5 d-flex gap-3 justify-content-center flex-wrap">
         {theaters.map(
           (val, i) =>
             val.runningMovies === false && (

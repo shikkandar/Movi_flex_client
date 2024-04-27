@@ -199,7 +199,7 @@ export const AdminDash = () => {
           </Button>
         </Form>
       </Container>
-      <Container className="mt-5 d-flex gap-3 justify-content-center flex-wrap" >
+      <Container className="my-5 d-flex gap-3 justify-content-center flex-wrap" >
         {theaters.map((val, i) =>
           val.runningMovies === false && (
             <Card key={i} sx={{ maxWidth: 600 }}>
