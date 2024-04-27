@@ -113,6 +113,17 @@ export const AdminDash = () => {
   const toggleShowMore = (index) => {
     setShowMoreIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+  const  handleClickUpdate=(index)=>{
+    const updateVal=theaters[index]
+    formik.setValues({
+      name: updateVal.name,
+      moviname: updateVal.moviname,
+      price: updateVal.price,
+      poster: updateVal.poster,
+      description: updateVal.description,
+      runningMovies: updateVal.runningMovie,
+    });
+  }
   if(!theaters){
     return (
       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
@@ -245,6 +256,9 @@ export const AdminDash = () => {
                 <React.Fragment>
                   <Button color="error" variant="contained" onClick={() => handleClickOpen(i)} size="small">
                     Delete
+                  </Button>
+                  <Button color="secondary" variant="contained" onClick={() => handleClickUpdate(i)} size="small">
+                    Update..!
                   </Button>
                   <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
                     <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
