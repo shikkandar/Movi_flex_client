@@ -200,7 +200,7 @@ export const AdminDash = () => {
           </Button>
         </Form>
       </Container>
-      <Container className="mt-5 d-flex gap-3 justify-content-center flex-wrap" fluid>
+      <Container className="mt-5 d-flex gap-3 justify-content-center flex-wrap" >
         {theaters.map((val, i) =>
           val.runningMovies === false && (
             <Card key={i} sx={{ maxWidth: 600 }}>
@@ -222,7 +222,7 @@ export const AdminDash = () => {
                   {"Price"} : <b>₹{val.price}</b>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  <b>Description:</b>{" "}
+                  <b>Story:</b>{" "}
                   {showMoreIndex === i ? val.description : val.description.substring(0, 250)}
                   {showMoreIndex !== i ? "..." : ""}
                 </Typography>
