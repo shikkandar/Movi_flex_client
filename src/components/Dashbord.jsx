@@ -60,11 +60,6 @@ export const Dashbord = () => {
                     {val.name}
                   </Typography>
                   <Typography
-                    gutterBottom
-                    component="div">
-                    {"Price"} : <b>₹{val.price}</b>
-                  </Typography>
-                  <Typography
                     variant="body2"
                     color="text.secondary">
                     <b>Story:</b>{" "}
