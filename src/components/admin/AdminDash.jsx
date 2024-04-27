@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AdminHeader } from "./AdminHeader";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -11,16 +10,32 @@ import Button from "@mui/material/Button";
 import { adminDashValidate } from "../../schemas/inputValidation";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
-import movi_poster from "../../assets/marvel-avengers-comics.webp";
 import { updateMoviList } from "../../routes/adminRoute";
 import Card from "@mui/material/Card"; // Importing Card from @mui/material
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export const AdminDash = () => {
+  const [open, setOpen] = React.useState(false);
+  const [deleteIndex, setDeleteIndex] = React.useState(null);
+
+  const handleClickOpen = (index) => {
+    setOpen(true);
+    setDeleteIndex(index);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setDeleteIndex(null);
+  };
+
   const [theaters, setTheaters] = useState([]);
 
   const formik = useFormik({
@@ -46,39 +61,38 @@ export const AdminDash = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log(values);
+      
 
       let updatePromise = updateMoviList(values);
-      toast.promise(updatePromise, {
+      await toast.promise(updatePromise, {
         loading: "Updating...",
         success: <b>Update Successfully...!</b>,
         error: <b>Update failed...!</b>,
       });
-      values.name = "";
-      values.moviname = "";
-      values.price = "";
-      values.poster = "";
-      values.description = "";
+      window.location.reload()
     },
   });
 
-  const deletemovi = (name) => {
+  const deletemovi = async(index) => {
+    setOpen(true);
+    const valueToDelete = theaters[index];
     const values = {
-      name,
+      name: valueToDelete.name,
       runningMovies: true,
       price: "",
       moviname: "",
       description: "",
       poster: "",
     };
-    console.log(values);
     let updatePromise = updateMoviList(values);
-    toast.promise(updatePromise, {
+     await toast.promise(updatePromise, {
       loading: "Updating...",
       success: <b>Update Successfully...!</b>,
       error: <b>Update failed...!</b>,
+      
     });
-    console.log(values);
+    window.location.reload()
+    handleClose();
   };
 
   useEffect(() => {
@@ -93,7 +107,9 @@ export const AdminDash = () => {
 
     fetchData();
   }, []);
+
   const [showMoreIndex, setShowMoreIndex] = useState(null);
+
   const toggleShowMore = (index) => {
     setShowMoreIndex((prevIndex) => (prevIndex === index ? null : index));
   };
@@ -101,14 +117,12 @@ export const AdminDash = () => {
   return (
     <div>
       <AdminHeader />
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-      />
+      <Toaster position="top-center" reverseOrder={false} />
       <Container className="mt-5">
         <Form
           onSubmit={formik.handleSubmit}
-          className="d-flex justify-content-center align-items-end gap-2 flex-wrap">
+          className="d-flex justify-content-center align-items-end gap-2 flex-wrap"
+        >
           <div>
             <InputLabel id="demo-simple-select-label">Theater</InputLabel>
             <Select
@@ -118,13 +132,12 @@ export const AdminDash = () => {
               onChange={formik.handleChange}
               value={formik.values.name}
               label="Age"
-              style={{ minWidth: "200px" }}>
+              style={{ minWidth: "200px" }}
+            >
               {theaters.map(
                 (val, i) =>
                   val.runningMovies && (
-                    <MenuItem
-                      key={i}
-                      value={val.name}>
+                    <MenuItem key={i} value={val.name}>
                       {val.name}
                     </MenuItem>
                   )
@@ -181,70 +194,65 @@ export const AdminDash = () => {
             type="submit"
             style={{ height: "55px", width: "40px" }}
             variant="contained"
-            color="success">
+            color="success"
+          >
             +
           </Button>
         </Form>
       </Container>
-      <Container
-        className="mt-5 d-flex gap-3 justify-content-center flex-wrap"
-        fluid>
-        {theaters.map(
-          (val, i) =>
-            val.runningMovies === false && (
-              <Card
-                key={i}
-                sx={{ maxWidth: 600 }}>
-                <CardMedia
-                  sx={{ height: 0, paddingTop: "56.25%" }} // Maintain aspect ratio (16:9)
-                  image={val.poster}
-                  title="Movi Poster"
-                  style={{ width: "100%", height: "auto" }} // Make image fluid
-                />
+      <Container className="mt-5 d-flex gap-3 justify-content-center flex-wrap" fluid>
+        {theaters.map((val, i) =>
+          val.runningMovies === false && (
+            <Card key={i} sx={{ maxWidth: 600 }}>
+              <CardMedia
+                sx={{ height: 0, paddingTop: "56.25%" }} // Maintain aspect ratio (16:9)
+                image={val.poster}
+                title="Movi Poster"
+                style={{ width: "100%", height: "auto" }} // Make image fluid
+              />
 
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div">
-                    {val.moviname}
-                  </Typography>
-                  <Typography
-                    gutterBottom
-                    component="div">
-                    {val.name} {"Theater"}
-                  </Typography>
-                  <Typography
-                    gutterBottom
-                    component="div">
-                    {"Price"} : <b>₹{val.price}</b>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary">
-                    <b>Description:</b>{" "}
-                    {showMoreIndex === i
-                    ? val.description
-                    : val.description.substring(0, 250)}
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {val.moviname}
+                </Typography>
+                <Typography gutterBottom component="div">
+                  {val.name} {"Theater"}
+                </Typography>
+                <Typography gutterBottom component="div">
+                  {"Price"} : <b>₹{val.price}</b>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <b>Description:</b>{" "}
+                  {showMoreIndex === i ? val.description : val.description.substring(0, 250)}
                   {showMoreIndex !== i ? "..." : ""}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    onClick={() => deletemovi(val.name)}
-                    size="small">
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <React.Fragment>
+                  <Button color="error" variant="contained" onClick={() => handleClickOpen(i)} size="small">
                     Delete
                   </Button>
-                  <Button
-                  onClick={() => toggleShowMore(i)}
-                  size="small">
+                  <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Disagree</Button>
+                      <Button onClick={() => deletemovi(deleteIndex)} autoFocus>
+                        Agree
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </React.Fragment>
+                <Button onClick={() => toggleShowMore(i)} size="small">
                   {showMoreIndex === i ? "Show Less" : "Read More"}
                 </Button>
-                </CardActions>
-              </Card>
-            )
+              </CardActions>
+            </Card>
+          )
         )}
       </Container>
     </div>
