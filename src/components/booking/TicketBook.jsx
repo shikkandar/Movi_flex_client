@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Header } from "../Header";
 import { Container, Image } from "react-bootstrap";
 import Tabs from "@mui/material/Tabs";
@@ -7,8 +7,11 @@ import Box from "@mui/material/Box";
 import currentDates from "../../helper/helperFuntions";
 import Button from "@mui/material/Button";
 import poster from "../../assets/marvel-avengers-comics.webp";
+import { UserContext } from "../../context/ContextProvider";
 
 export const TicketBook = () => {
+  const {moviDetail}=useContext(UserContext)
+  console.log(moviDetail);
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -38,7 +41,7 @@ export const TicketBook = () => {
       <Header />
       <Container className="d-flex flex-column justify-content-center align-items-center my-4">
         <Image
-          src={poster}
+          src={moviDetail.poster}
           style={{ aspectRatio: "16/9", width: "600px" }}
           fluid
         />

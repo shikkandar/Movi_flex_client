@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "react-bootstrap";
 import Button from "@mui/material/Button";
@@ -10,10 +10,11 @@ import Typography from "@mui/material/Typography";
 import { Header } from "./Header";
 import { InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/ContextProvider";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const Dashbord = () => {
-
+  const {setMoviDetail}=useContext(UserContext)
   const navigate=useNavigate()
   const [showMoreIndex, setShowMoreIndex] = useState(null);
 
@@ -34,7 +35,8 @@ export const Dashbord = () => {
 
     fetchData();
   }, []);
-  const handleBook=()=>{
+  const handleBook=(i,val)=>{
+    setMoviDetail(val)
     navigate('/tiket_booking')
   }
   if (!theaters) {
@@ -96,7 +98,7 @@ export const Dashbord = () => {
                   <Button
                     color="success"
                     variant="contained"
-                    onClick={() => handleBook(i)}
+                    onClick={() => handleBook(i,val)}
                     size="small">
                     Book Now
                   </Button>
