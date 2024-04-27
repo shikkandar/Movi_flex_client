@@ -8,8 +8,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Header } from "./Header";
+import { InfinitySpin } from "react-loader-spinner";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 export const Dashbord = () => {
+
   const [showMoreIndex, setShowMoreIndex] = useState(null);
 
   const toggleShowMore = (index) => {
@@ -29,6 +31,22 @@ export const Dashbord = () => {
 
     fetchData();
   }, []);
+
+  if(!theaters){
+    return (
+      <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+        <InfinitySpin
+          visible={true}
+          height={100}
+          width={100}
+          color="#000"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
+      </div>
+    );
+  }
   return (
     <div>
       <Header />

@@ -21,6 +21,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { InfinitySpin } from "react-loader-spinner";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const AdminDash = () => {
@@ -112,7 +113,21 @@ export const AdminDash = () => {
   const toggleShowMore = (index) => {
     setShowMoreIndex((prevIndex) => (prevIndex === index ? null : index));
   };
-
+  if(!theaters){
+    return (
+      <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+        <InfinitySpin
+          visible={true}
+          height={100}
+          width={100}
+          color="#000"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
+      </div>
+    );
+  }
   return (
     <div>
       <AdminHeader />

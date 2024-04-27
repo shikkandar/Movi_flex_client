@@ -13,7 +13,7 @@ import { UserContext } from "../context/ContextProvider";
 import useFetch from "../hooks/fetch.hooks";
 import avatar from "../assets/13369169.jpg";
 import { verifyPassword } from "../routes/apiRoute";
-import { InfinitySpin} from "react-loader-spinner";
+import { InfinitySpin } from "react-loader-spinner";
 
 export const Password = () => {
   const { userdata } = useContext(UserContext);
@@ -60,11 +60,11 @@ export const Password = () => {
 
   if (isLoading) {
     return (
-      <div className="vh-100 w-100 justify-content-center align-items-center d-flex">
+      <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
         <InfinitySpin
           visible={true}
-          height="400"
-          width="400"
+          height={100}
+          width={100}
           color="#000"
           ariaLabel="dna-loading"
           wrapperStyle={{}}

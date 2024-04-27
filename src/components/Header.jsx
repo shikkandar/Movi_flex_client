@@ -11,10 +11,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/fetch.hooks";
-import avatar from "../assets/avatar_2.jpeg";
-import { jwtDecode } from "jwt-decode";
+import avatar from "../assets/13369169.jpg";
 import { Image } from "react-bootstrap";
 import logo from "../assets/logo.png";
 
