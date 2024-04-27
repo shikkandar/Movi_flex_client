@@ -37,9 +37,12 @@ export const UnAuthorizeUser = ({ children }) => {
     useExpire(exp);
     /**Token expire time countown custom hook */
   
-    if (!token || navigateToHome) {
+    if (!token && navigateToHome) {
         const route='/'
       return <Dialogu route={route} />;
+    }
+    if (!token) {
+      return <Navigate to={'/'} replace={true}></Navigate>
     }
   
     return children;
@@ -47,7 +50,6 @@ export const UnAuthorizeUser = ({ children }) => {
 
 export const AuthorizeUser = ({ children }) => {
     const token = localStorage.getItem('token');
-
     if(token){
         return <Navigate to={'/dashbord'} replace={true}></Navigate>
     }

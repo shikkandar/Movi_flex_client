@@ -12,6 +12,7 @@ import { Dashbord } from "./components/Dashbord";
 import { UnAuthorizeUser,ProtectRoute, AuthorizeUser } from "./middleware/AuthorizeUser";
 import { Admin } from "./components/admin/Admin";
 import { AdminDash } from "./components/admin/AdminDash";
+import {  ProductRegister, UnAuthorizeAdmin } from "./middleware/AuthorizeAdmin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,11 +28,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/recovery",
-    element: <Recovery/>,
+    element: <ProtectRoute><Recovery/></ProtectRoute>,
   },
   {
     path: "/reset",
-    element: <Reset/>,
+    element: <ProtectRoute><Reset/></ProtectRoute>,
   },
   {
     path: "/pageNotFound",
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <Register/>,
+    element: <ProductRegister><Register/></ProductRegister>,
   },
   {
     path: "/dashbord",
@@ -47,11 +48,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <UnAuthorizeUser><Admin/></UnAuthorizeUser>,
+    element: <UnAuthorizeUser><Admin/></UnAuthorizeUser>
   },
   {
     path: "/admin/dash",
-    element: <UnAuthorizeUser><AdminDash/></UnAuthorizeUser>,
+    element: <UnAuthorizeAdmin><AdminDash/></UnAuthorizeAdmin>,
   },
   {
     path: "*",

@@ -26,6 +26,9 @@ export const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const usertoken=localStorage.getItem("token");
+  const admintoken=localStorage.getItem("admintoken")
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -44,14 +47,20 @@ export const Header = () => {
   function handleProfileClick() {
     navigate("/profile");
   }
-  function handleDashboardClick() {
+  function handleDashboardClick() { 
     navigate("/dashbord");
   }
   function handleAdminClick() {
-    navigate("/admin");
+    if (admintoken && usertoken) {
+      navigate("/admin/dash");
+    }else{
+      navigate("/admin");
+    }
+    
   }
   function handleLogoutClick() {
     localStorage.removeItem("token");
+    localStorage.removeItem("admintoken")
     navigate("/");
   }
 

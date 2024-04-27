@@ -19,7 +19,7 @@ import { UserContext } from "../../context/ContextProvider";
 export const AdminHeader = () => {
 
   const { adminName } = useContext(UserContext);
-  const settings = ["Logout"];
+  const settings = ["Swith to user","Logout"];
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -42,6 +42,9 @@ export const AdminHeader = () => {
   function handleLogoutClick() {
     localStorage.removeItem("admintoken");
     navigate("/");
+  }
+  function handleSwithUserClick() {
+    navigate("/dashbord");
   }
 
   return (
@@ -131,6 +134,9 @@ export const AdminHeader = () => {
                     switch (setting) {
                       case "Logout":
                         handleLogoutClick();
+                        break;
+                      case "Swith to user":
+                        handleSwithUserClick();
                         break;
                       default:
                         handleCloseUserMenu();

@@ -15,12 +15,16 @@ import movi_poster from "../../assets/marvel-avengers-comics.webp";
 import { updateMoviList } from "../../routes/adminRoute";
 export const AdminDash = () => {
   const [theaters, setTheaters] = useState([]);
-
+  const [showMore, setShowMore] = useState(false);
+  // console.log(
+  //   theaters
+  // );
   const formik = useFormik({
     initialValues: {
       name: "",
       moviname: "",
       price: "",
+      poster: "",
       description: "",
       runningMovies: false,
     },
@@ -49,20 +53,29 @@ export const AdminDash = () => {
       values.name = "";
       values.moviname = "";
       values.price = "";
+      values.poster = "";
       values.description = "";
-      window.location.reload()
+      // window.location.reload()
     },
   });
-  
+
   const deletemovi = (name) => {
-    const values={name,runningMovies: true}
+    const values = {
+      name,
+      runningMovies: true,
+      price: "",
+      moviname: "",
+      description: "",
+      poster: "",
+    };
+    console.log(values);
     let updatePromise = updateMoviList(values);
     toast.promise(updatePromise, {
       loading: "Updating...",
       success: <b>Update Successfully...!</b>,
       error: <b>Update failed...!</b>,
     });
-    window.location.reload()
+    // window.location.reload()
     console.log(values);
   };
 
@@ -125,6 +138,18 @@ export const AdminDash = () => {
           </div>
           <div>
             <TextField
+              id="poster"
+              name="poster"
+              type="url"
+              style={{ minWidth: "200px" }}
+              onChange={formik.handleChange}
+              label="Movi-Poster"
+              value={formik.values.poster}
+              variant="outlined"
+            />
+          </div>
+          <div>
+            <TextField
               style={{ minWidth: "200px" }}
               id="price"
               label="Price"
@@ -163,13 +188,31 @@ export const AdminDash = () => {
                 key={i}>
                 <Card.Img
                   variant="top"
-                  src={movi_poster}
+                  src={val.poster || movi_poster}
                 />
-                <Card.Title>{val.name}</Card.Title>
+                <Card.Title
+                  className="mx-3"
+                  style={{ fontSize: "28px" }}>
+                  {val.moviname}
+                </Card.Title>
                 <Card.Body>
                   <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                    <b>{"Theater Name"}:</b> {val.name} {"Theater"}
+                    <br />
+                    <b>{"Price"}:</b> {val.price}
+                  </Card.Text>
+                  <Card.Text>
+                    <b>Description:</b>
+                    {showMore
+                      ? val.description
+                      : val.description.substring(0, 250)}
+
+                    <b style={{textDecoration:"underline",cursor:"pointer"}}
+                      onClick={() => {
+                        setShowMore(!showMore);
+                      }}>
+                      {showMore ? "Read less" : "Read more"}
+                    </b>
                   </Card.Text>
                   <Button
                     onClick={() => deletemovi(val.name)}

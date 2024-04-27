@@ -10,15 +10,13 @@ import { adminValidate } from "../../schemas/inputValidation";
 import { Button, Container, Form, Image } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import useFetch from "../../hooks/fetch.hooks";
-import { InfinitySpin } from "react-loader-spinner";
 import { loginAdmin } from "../../routes/adminRoute";
 import { UserContext } from "../../context/ContextProvider";
 export const Admin = () => {
 
   const { setAdminName } = useContext(UserContext);
-  const [{ isLoading, apiData, serverError }] = useFetch();
-  console.log(apiData);
+
+
   const [passShow, setPassShow] = useState(false);
   const navigate = useNavigate();
   const formik = useFormik({
@@ -59,25 +57,7 @@ export const Admin = () => {
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="vh-100 w-100 justify-content-center align-items-center d-flex">
-        <InfinitySpin
-          visible={true}
-          height="400"
-          width="400"
-          color="#000"
-          ariaLabel="dna-loading"
-          wrapperStyle={{}}
-          wrapperClass="dna-wrapper"
-        />
-      </div>
-    );
-  }
 
-  if (serverError) {
-    return <h1>server error</h1>;
-  }
 
   return (
     <div className="back">
