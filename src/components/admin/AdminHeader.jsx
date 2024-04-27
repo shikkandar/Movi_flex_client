@@ -14,11 +14,10 @@ import { useNavigate } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import { deepPurple } from "@mui/material/colors";
-import { UserContext } from "../../context/ContextProvider";
+
 
 export const AdminHeader = () => {
 
-  const { adminName } = useContext(UserContext);
   const settings = ["Swith to user","Logout"];
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
