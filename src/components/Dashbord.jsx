@@ -8,6 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Header } from "./Header";
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 export const Dashbord = () => {
   const [showMoreIndex, setShowMoreIndex] = useState(null);
 
@@ -19,7 +20,7 @@ export const Dashbord = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/theaters");
+        const response = await axios.get("/api/theaters");
         setTheaters(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
