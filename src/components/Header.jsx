@@ -122,7 +122,20 @@ export const Header = () => {
               {pages.map((page) => (
                 <MenuItem
                   key={page}
-                  onClick={handleCloseNavMenu}>
+                  onClick={() => {
+                    switch (page) {
+                      case "Dashboard":
+                        handleDashboardClick();
+                        break;
+                      case "Admin":
+                        handleAdminClick();
+                        break;
+                      default:
+                        handleCloseNavMenu();
+                        break;
+                    }
+                  }}
+                  >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
