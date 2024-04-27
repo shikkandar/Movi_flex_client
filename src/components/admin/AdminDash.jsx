@@ -21,6 +21,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const AdminDash = () => {
   const [open, setOpen] = React.useState(false);
@@ -61,8 +62,6 @@ export const AdminDash = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      
-
       let updatePromise = updateMoviList(values);
       await toast.promise(updatePromise, {
         loading: "Updating...",
@@ -98,7 +97,7 @@ export const AdminDash = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/theaters");
+        const response = await axios.get("/api/theaters");
         setTheaters(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
