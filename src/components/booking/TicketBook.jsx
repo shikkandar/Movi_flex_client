@@ -6,36 +6,47 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import currentDates from "../../helper/helperFuntions";
 import Button from "@mui/material/Button";
-import poster from "../../assets/marvel-avengers-comics.webp";
 import { UserContext } from "../../context/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 export const TicketBook = () => {
-  const {moviDetail}=useContext(UserContext)
-  console.log(moviDetail);
+  const navigate = useNavigate();
+  const { tabLabels, currentMonth ,currentYear } = currentDates();
+  const { moviDetail, setMoviDetail } = useContext(UserContext);
+
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [day, setDay] = useState();
-
-  const handleDayChange = (i) => {
-    setDay(i+currentDay)
-  };
+  const [showDay, setShowDay] = useState();
   
+  const handleDayChange = (i) => {
+    setShowDay(i + currentDay);
+  };
+
   const currentDate = new Date();
   const currentHour = currentDate.getHours();
   const currentMinutes = currentDate.getMinutes();
   const currentDay = currentDate.getDate();
 
-
   useEffect(() => {
     const currentDay = currentDate.getDate();
-    setDay(currentDay);
+    setShowDay(currentDay);
   }, []);
 
-  const tabLabels = currentDates();
- 
+  const handleShow = async (val) => {
+    await setMoviDetail({
+      ...moviDetail,
+      month: currentMonth,
+      date: showDay,
+      time: val,
+      year:currentYear
+    });
+    // console.log(moviDetail);
+    navigate("/tiket_booking/seat_panel");
+  };
+
   return (
     <div>
       <Header />
@@ -58,7 +69,7 @@ export const TicketBook = () => {
               <Tab
                 key={i}
                 label={val}
-                onClick={() => handleDayChange(i )}
+                onClick={() => handleDayChange(i)}
               />
             ))}
           </Tabs>
@@ -67,16 +78,28 @@ export const TicketBook = () => {
           <Button
             size="large"
             variant="contained"
+            onClick={() => {
+              handleShow("11:00-AM");
+            }}
             disabled={
-              (currentHour > 11 && currentDay >=day ) || (currentHour === 11 && currentMinutes >= 0 && currentDay >=day)
+              (currentHour > 10 && currentDay >= showDay) ||
+              (currentHour === 10 &&
+                currentMinutes >= 30 &&
+                currentDay >= showDay)
             }>
             11:00 AM
           </Button>
           <Button
             size="large"
             variant="contained"
+            onClick={() => {
+              handleShow("02:15-PM");
+            }}
             disabled={
-              (currentHour > 14 && currentDay >=day) || (currentHour === 14 && currentMinutes >= 15 && currentDay >=day)
+              (currentHour > 13 && currentDay >= showDay) ||
+              (currentHour === 13 &&
+                currentMinutes >= 45 &&
+                currentDay >= showDay)
             }>
             02:15 PM
           </Button>
@@ -86,16 +109,28 @@ export const TicketBook = () => {
           <Button
             size="large"
             variant="contained"
+            onClick={() => {
+              handleShow("06:15-PM");
+            }}
             disabled={
-              (currentHour > 18 && currentDay >=day) || (currentHour === 18 && currentMinutes >= 15 && currentDay >=day)
+              (currentHour > 17 && currentDay >= showDay) ||
+              (currentHour === 17 &&
+                currentMinutes >= 45 &&
+                currentDay >= showDay)
             }>
             06:15 PM
           </Button>
           <Button
             size="large"
             variant="contained"
+            onClick={() => {
+              handleShow("10:00-PM");
+            }}
             disabled={
-              (currentHour > 22 && currentDay >=day) || (currentHour === 22 && currentMinutes >= 0 && currentDay >=day)
+              (currentHour > 21 && currentDay >= showDay) ||
+              (currentHour === 21 &&
+                currentMinutes >= 30 &&
+                currentDay >= showDay)
             }>
             10.00 PM
           </Button>

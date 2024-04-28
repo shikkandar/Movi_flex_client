@@ -8,12 +8,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-export const Dialogu = (props) => {
-    const theme = useTheme();
+export const Dialogu = ({ route, text }) => {
+  const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleClose = () => {
-    window.location.replace(props.route);
+    window.location.replace(route);
   };
   return (
     <div>
@@ -27,9 +27,8 @@ export const Dialogu = (props) => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Your session has expired. Please log in again to continue
-              exploring. We're here to keep your experience seamless and secure.
-              Thank you for your understanding.
+              {text ||
+                "Your session has expired. Please log in again to continue exploring. We're here to keep your experience seamless and secure. Thank you for your understanding."}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -42,5 +41,5 @@ export const Dialogu = (props) => {
         </Dialog>
       </React.Fragment>
     </div>
-  )
-}
+  );
+};
