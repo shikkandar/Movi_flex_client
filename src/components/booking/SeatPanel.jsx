@@ -11,8 +11,9 @@ import Button from "@mui/material/Button";
 
 import { Dialogu } from "../helperComponent/Dialogu";
 
+
 export const SeatPanel = () => {
-  const [seconds, setSeconds] = useState(5); // Start timer at 5 minutes (300 seconds)
+  const [seconds, setSeconds] = useState(300); // Start timer at 5 minutes (300 seconds)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,9 +40,16 @@ export const SeatPanel = () => {
   console.log(moviDetail);
 
   if (seconds === 0) {
-    const route='/dashbord'
-    const text="Your booking time has expired.\nPlease try again."
-    return <Dialogu route={route} text={text} />;
+    const route = "/dashbord";
+    const text = "Your booking time has expired.\nPlease try again.";
+    const headText = "Oops...!";
+    return (
+      <Dialogu
+        route={route}
+        text={text}
+        headText={headText}
+      />
+    );
   }
   return (
     <>
@@ -85,9 +93,33 @@ export const SeatPanel = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <div className="w-100 d-flex justify-content-end">
+      <div className="w-100 mt-3 d-flex justify-content-end">
         <h2 className="mx-2">{formatTime(seconds)}</h2>
       </div>
+      <Container fluid>
+        {Array.from({ length: 18 }, (_, i) => (
+          <div
+            key={i}
+            className="my-2 d-flex flex-wrap gap-1 justify-content-center">
+            <Button
+              color="secondary"
+              sx={{backgroundColor:"#000"}}
+              variant="contained">
+              {String.fromCharCode(65 + i)}
+            </Button>
+            {Array.from({ length: 10 }, (_, i) => (
+              <Button
+                key={i}
+                color="info"
+                
+                sx={{backgroundColor:"#FDB805",color:"#000"}}
+                variant="contained">
+                {i + 1}
+              </Button>
+            ))}
+          </div>
+        ))}
+      </Container>
     </>
   );
 };

@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-export const Dialogu = ({ route, text }) => {
+export const Dialogu = ({ route, text ,headText}) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -23,7 +23,8 @@ export const Dialogu = ({ route, text }) => {
           open={open}
           aria-labelledby="responsive-dialog-title">
           <DialogTitle id="responsive-dialog-title">
-            Your session has expired
+            {headText ||
+            "Your session has expired"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
