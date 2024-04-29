@@ -348,6 +348,9 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
+      <div className="m-4 border d-flex justify-content-center" style={{height:"200px" }}>
+            <h4 className="mt-3">Screen</h4>
+      </div>
       <div className="container w-100 px-2 mt-3 d-flex justify-content-end">
         <Root>
           <CssBaseline />
@@ -361,6 +364,7 @@ export const SeatPanel = (props) => {
           />
           <Box>
             <Button
+              style={{position:"fixed", bottom:"70px",right:"70px"}}
               color="warning"
               variant="contained"
               onClick={toggleDrawer(true)}>
