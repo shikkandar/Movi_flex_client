@@ -193,7 +193,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsB).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -204,7 +204,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsC).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -215,7 +215,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsD).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -226,7 +226,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsE).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -237,7 +237,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-5 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsF).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -249,7 +249,7 @@ export const SeatPanel = (props) => {
         ))}
       </div>
    
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsG).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -260,7 +260,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsH).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -271,7 +271,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsI).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -282,7 +282,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsJ).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -293,7 +293,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-5 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsK).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -304,7 +304,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsL).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -315,7 +315,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsM).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -326,7 +326,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsN).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
@@ -337,7 +337,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsO).map(([seatKey, seatValue]) => (
           <Button
             key={seatKey}
