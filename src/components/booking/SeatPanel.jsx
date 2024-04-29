@@ -397,7 +397,8 @@ export const SeatPanel = (props) => {
             </StyledBox>
             <div className="d-flex justify-content-center">
               <Image
-                style={{ width: "500px", aspectRatio: "16/9" }}
+                className="m-2"
+                style={{ width: "400px", aspectRatio: "16/9" }}
                 src={moviDetail.poster}
                 fluid
                 rounded
@@ -406,11 +407,11 @@ export const SeatPanel = (props) => {
             {selectedSeats.length > 0 && (
               <div className="d-flex mt-3 justify-content-center w-100 gap-3">
                 {selectedSeats.map((val, i) => (
-                  <Button
+                  <p
                     key={i}
-                    variant="contained">
+                    >
                     {val}
-                  </Button>
+                  </p>
                 ))}
               </div>
             )}
