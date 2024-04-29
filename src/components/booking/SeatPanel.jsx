@@ -44,9 +44,8 @@ const Puller = styled("div")(({ theme }) => ({
 export const SeatPanel = (props) => {
   const nav = useNavigate();
 
-  const { moviDetail, setSelectedSeats, selectedSeats } =
-    useContext(UserContext);
-  console.log(moviDetail);
+  const { moviDetail, setSelectedSeats, selectedSeats } = useContext(UserContext);
+ 
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [seatsA, setSeatsA] = useState([]);
   const [seatsB, setSeatsB] = useState([]);
@@ -63,7 +62,6 @@ export const SeatPanel = (props) => {
   const [seatsM, setSeatsM] = useState([]);
   const [seatsN, setSeatsN] = useState([]);
   const [seatsO, setSeatsO] = useState([]);
-  const navigate = useNavigate();
   const params = moviDetail.name.split(" ")[0];
   const bookingDate = moviDetail.date;
   const bookingTime = moviDetail.time;
@@ -105,18 +103,6 @@ export const SeatPanel = (props) => {
     }
   };
 
-  if (isTimeUp) {
-    const route = "/dashbord";
-    const text = "Your booking time has expired.\nPlease try again.";
-    const headText = "Oops...!";
-    return (
-      <Dialogu
-        route={route}
-        text={text}
-        headText={headText}
-      />
-    );
-  }
   const confirmBookingBtn = () => {
     nav("/tiket_booking/payment");
   };
@@ -132,6 +118,19 @@ export const SeatPanel = (props) => {
   // This is used only for the example
   const container =
     window !== undefined ? () => window().document.body : undefined;
+    
+  if (isTimeUp) {
+    const route = "/dashbord";
+    const text = "Your booking time has expired.\nPlease try again.";
+    const headText = "Oops...!";
+    return (
+      <Dialogu
+        route={route}
+        text={text}
+        headText={headText}
+      />
+    );
+  }
   return (
     <>
       <AppBar
@@ -171,7 +170,7 @@ export const SeatPanel = (props) => {
       </AppBar>
       <div className="w-100 px-2 mt-3 d-flex justify-content-end">
         <Countdown
-          date={Date.now() + 5 * 60 * 1000}
+          date={Date.now() + 1 * 2 * 1000}
           onComplete={handleCountdownComplete}
           renderer={({ minutes, seconds }) => (
             <Typography variant="h4">
