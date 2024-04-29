@@ -32,6 +32,39 @@ export default function useFetch(query){
 
   return [getData, setData];
 }
+export function useGetFetch(query,{bookingDate,bookingTime}){
+  const [getData, setData] = useState({ isLoading : false, apiData: undefined, status: null, serverError: null,})
+
+  useEffect(() => {
+
+      const fetchData = async () => {
+          try {
+              setData(prev => ({ ...prev, isLoading: true}));
+            
+              const { data, status } = await axios.get(`/api/${query}/data`,{
+                params: {
+                    bookingDate: bookingDate,
+                    bookingTime: bookingTime
+                  }
+              });
+
+              if(status === 200){
+                  setData(prev => ({ ...prev, isLoading: false}));
+                  setData(prev => ({ ...prev, apiData : data, status: status }));
+                  
+              }
+
+              setData(prev => ({ ...prev, isLoading: false}));
+          } catch (error) {
+              setData(prev => ({ ...prev, isLoading: false, serverError: error }))
+          }
+      };
+      fetchData()
+
+  }, [query]);
+
+  return [getData, setData];
+}
 export async function useExpire(exp) {
     useEffect(() => {
         if (exp > 0) { // Ensure exp is valid

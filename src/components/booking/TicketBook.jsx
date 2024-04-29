@@ -8,11 +8,14 @@ import currentDates from "../../helper/helperFuntions";
 import Button from "@mui/material/Button";
 import { UserContext } from "../../context/ContextProvider";
 import { useNavigate } from "react-router-dom";
+import { createSeats } from "../../routes/bookingRouts";
 
 export const TicketBook = () => {
   const navigate = useNavigate();
-  const { tabLabels, currentMonth ,currentYear } = currentDates();
+  const { tabLabels, currentMonth, currentYear } = currentDates();
+  const [bookingDay, setBookingDay] = useState(tabLabels[0]);
   const { moviDetail, setMoviDetail } = useContext(UserContext);
+  
 
   const [value, setValue] = useState(0);
 
@@ -20,9 +23,10 @@ export const TicketBook = () => {
     setValue(newValue);
   };
   const [showDay, setShowDay] = useState();
-  
-  const handleDayChange = (i) => {
+
+  const handleDayChange = (i, val) => {
     setShowDay(i + currentDay);
+    setBookingDay(val);
   };
 
   const currentDate = new Date();
@@ -36,14 +40,18 @@ export const TicketBook = () => {
   }, []);
 
   const handleShow = async (val) => {
+    const dates = bookingDay.split(" ");
+    const bookingDate = `${dates[0]}-${dates[1]}-${currentYear}`;
+    const theaterName = moviDetail.name;
+    const moviName = moviDetail.moviname;
+    const params = theaterName.split(" ")[0];
+
     await setMoviDetail({
       ...moviDetail,
-      month: currentMonth,
-      date: showDay,
+      date: bookingDate,
       time: val,
-      year:currentYear
     });
-    // console.log(moviDetail);
+    await createSeats({ bookingDate, theaterName, moviName }, params);
     navigate("/tiket_booking/seat_panel");
   };
 
@@ -69,7 +77,7 @@ export const TicketBook = () => {
               <Tab
                 key={i}
                 label={val}
-                onClick={() => handleDayChange(i)}
+                onClick={() => handleDayChange(i, val)}
               />
             ))}
           </Tabs>
