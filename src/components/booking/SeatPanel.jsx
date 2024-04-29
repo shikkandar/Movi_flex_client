@@ -42,8 +42,7 @@ const Puller = styled("div")(({ theme }) => ({
   left: "calc(50% - 15px)",
 }));
 export const SeatPanel = (props) => {
-
-  const nav=useNavigate()
+  const nav = useNavigate();
 
   const { moviDetail, setSelectedSeats, selectedSeats } =
     useContext(UserContext);
@@ -119,7 +118,7 @@ export const SeatPanel = (props) => {
     );
   }
   const confirmBookingBtn = () => {
-    nav('/tiket_booking/payment')
+    nav("/tiket_booking/payment");
   };
 
   if (!moviDetail) return <></>;
@@ -160,10 +159,10 @@ export const SeatPanel = (props) => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <Button
-                  onClick={() => navigate("/tiket_booking")}
-                  color="secondary"
-                  variant="contained">
-                  Back
+                  color="warning"
+                  variant="contained"
+                  onClick={toggleDrawer(true)}>
+                  Book Now
                 </Button>
               </Tooltip>
             </Box>
@@ -248,7 +247,7 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-   
+
       <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
         {Object.entries(seatsG).map(([seatKey, seatValue]) => (
           <Button
@@ -348,8 +347,10 @@ export const SeatPanel = (props) => {
           </Button>
         ))}
       </div>
-      <div className="m-4 border d-flex justify-content-center" style={{height:"200px" }}>
-            <h4 className="mt-3">Screen</h4>
+      <div
+        className="m-4 border d-flex justify-content-center"
+        style={{ height: "200px" }}>
+        <h4 className="mt-3">Screen</h4>
       </div>
       <div className="container w-100 px-2 mt-3 d-flex justify-content-end">
         <Root>
@@ -362,15 +363,7 @@ export const SeatPanel = (props) => {
               },
             }}
           />
-          <Box>
-            <Button
-              style={{position:"fixed", bottom:"70px",right:"70px"}}
-              color="warning"
-              variant="contained"
-              onClick={toggleDrawer(true)}>
-              Book Now
-            </Button>
-          </Box>
+          <Box></Box>
           <SwipeableDrawer
             container={container}
             anchor="bottom"
