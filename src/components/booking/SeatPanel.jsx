@@ -397,7 +397,7 @@ export const SeatPanel = (props) => {
             <div className="d-flex justify-content-center">
               <Image
                 className="m-2"
-                style={{ width: "400px", aspectRatio: "16/9" }}
+                style={{ width: "300px", aspectRatio: "16/9" }}
                 src={moviDetail.poster}
                 fluid
                 rounded
