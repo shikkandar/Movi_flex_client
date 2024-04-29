@@ -170,7 +170,7 @@ export const SeatPanel = (props) => {
       </AppBar>
       <div className="w-100 px-2 mt-3 d-flex justify-content-end">
         <Countdown
-          date={Date.now() + 1 * 2 * 1000}
+          date={Date.now() + 5 * 60 * 1000}
           onComplete={handleCountdownComplete}
           renderer={({ minutes, seconds }) => (
             <Typography variant="h4">
