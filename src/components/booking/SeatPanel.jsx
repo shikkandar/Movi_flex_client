@@ -44,12 +44,11 @@ const Puller = styled("div")(({ theme }) => ({
 export const SeatPanel = (props) => {
   const nav = useNavigate();
 
-  const { moviDetail, setSelectedSeats, selectedSeats } =
+  const { moviDetail, setSelectedSeats, selectedSeats,selectedData,setSelectedData } =
     useContext(UserContext);
 
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [seats, setSeats] = useState({});
-  console.log(seats);
   const params = moviDetail.name.split(" ")[0];
   const bookingDate = moviDetail.date;
   const bookingTime = moviDetail.time;
@@ -64,21 +63,34 @@ export const SeatPanel = (props) => {
       setSeats(apiData[0].seats);
     }
   }, [apiData]);
-  console.log(seats);
   const handleCountdownComplete = () => {
     setIsTimeUp(true);
   };
 
-  const handleBooking = (key) => {
+  const handleBooking = (key, val) => {
+    // Update the selectedSeats state as before
     if (selectedSeats.includes(key)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== key));
-    } else if (selectedSeats.length < 6) {
+      // If the seat is already selected and not occupied, deselect it
+      if (!val.occupied) {
+        setSelectedSeats(selectedSeats.filter((seat) => seat !== key));
+        
+        // Remove the seat from selectedData
+        const updatedSelectedData = { ...selectedData };
+        delete updatedSelectedData[key];
+        setSelectedData(updatedSelectedData);
+      }
+    } else if (selectedSeats.length < 6 && !val.occupied) {
+      // If the seat is not selected, the number of selected seats is less than 6, and the seat is not occupied, select it
       setSelectedSeats([...selectedSeats, key]);
+      
+      // Add the seat to selectedData
+      setSelectedData({ ...selectedData, [key]: { occupied: true, username: null, userId: null } });
     }
   };
+  
+  
 
   const confirmBookingBtn = () => {
-    console.log(selectedSeats);
     nav("/tiket_booking/payment");
   };
 
@@ -145,7 +157,7 @@ export const SeatPanel = (props) => {
       </AppBar>
       <div className="w-100 px-2 mt-3 d-flex justify-content-end">
         <Countdown
-          date={Date.now() + 60 * 60 * 1000}
+          date={Date.now() + 5 * 60 * 1000}
           onComplete={handleCountdownComplete}
           renderer={({ minutes, seconds }) => (
             <Typography variant="h4">
@@ -187,7 +199,7 @@ export const SeatPanel = (props) => {
                           : "contained"
                       }
                       disabled={seatValue.occupied === true}
-                      onClick={() => handleBooking(seatKey)}
+                      onClick={() => handleBooking(seatKey,seatValue)}
                       size="small">
                       {i + 1}
                     </Button>
@@ -205,7 +217,7 @@ export const SeatPanel = (props) => {
                           : "contained"
                       }
                       disabled={seatValue.occupied === true}
-                      onClick={() => handleBooking(seatKey)}
+                      onClick={() => handleBooking(seatKey,seatValue)}
                       size="small">
                       {i + 11}
                     </Button>

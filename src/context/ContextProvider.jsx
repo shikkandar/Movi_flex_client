@@ -9,9 +9,10 @@ const Context =({children}) =>{
     const [adminName ,setAdminName] =useState();
     const [moviDetail ,setMoviDetail]=useState({})
     const [selectedSeats,setSelectedSeats]=useState([])
+    const[selectedData,setSelectedData]=useState({})
 
     return(
-        <UserContext.Provider value={{userdata ,setUserdata ,adminName ,setAdminName ,moviDetail,setMoviDetail,selectedSeats,setSelectedSeats}}>
+        <UserContext.Provider value={{userdata ,setUserdata ,adminName ,setAdminName ,moviDetail,setMoviDetail,selectedSeats,setSelectedSeats,selectedData,setSelectedData}}>
             {children}
         </UserContext.Provider>
     )

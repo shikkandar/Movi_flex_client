@@ -16,3 +16,16 @@ export async function createSeats({ bookingDate, theaterName, moviName },params)
     return Promise.reject(error);
   }
 }
+
+
+/**Update booking */
+export async function UpdateBooking({ params, bookingDate, bookingTime, selectedData }) {
+  console.log(params,bookingDate,bookingTime,selectedData);
+  try {
+    const res = await axios.put(`api/${params}/update`, { bookingDate, bookingTime, selectedData });
+    return res;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
