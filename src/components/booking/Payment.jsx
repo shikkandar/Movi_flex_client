@@ -10,7 +10,7 @@ import { UpdateBooking } from "../../routes/bookingRouts";
 import { useNavigate } from "react-router-dom";
 
 export const Payment = () => {
-  const { moviDetail, selectedSeats, selectedData } = useContext(UserContext);
+  const { moviDetail, selectedSeats, selectedData,setSelectedSeats, setSelectedData } = useContext(UserContext);
   const ticketPrice = selectedSeats.length * moviDetail.price;
   const gst = (ticketPrice / 100) * 8;
   const totalAmount = ticketPrice + gst + 20;
@@ -21,6 +21,8 @@ export const Payment = () => {
 
   const handleBooking = async () => {
     await UpdateBooking({ params, bookingDate, bookingTime, selectedData });
+    setSelectedSeats([])
+    setSelectedData({})
     navigate('/tiket_booking/seat_panel');
   };
 

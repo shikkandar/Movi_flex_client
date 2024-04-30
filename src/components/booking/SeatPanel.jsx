@@ -41,14 +41,18 @@ const Puller = styled("div")(({ theme }) => ({
   top: 8,
   left: "calc(50% - 15px)",
 }));
+
 export const SeatPanel = (props) => {
   const nav = useNavigate();
 
-  const { moviDetail, setSelectedSeats, selectedSeats,selectedData,setSelectedData } =
-    useContext(UserContext);
+  const { moviDetail, setSelectedSeats, selectedSeats, selectedData, setSelectedData } = useContext(
+    UserContext
+  );
 
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [seats, setSeats] = useState({});
+  const [countdownTime, setCountdownTime] = useState(Date.now() + 5 * 60 * 1000); // Initial countdown time
+
   const params = moviDetail.name.split(" ")[0];
   const bookingDate = moviDetail.date;
   const bookingTime = moviDetail.time;
@@ -63,6 +67,7 @@ export const SeatPanel = (props) => {
       setSeats(apiData[0].seats);
     }
   }, [apiData]);
+
   const handleCountdownComplete = () => {
     setIsTimeUp(true);
   };
@@ -73,7 +78,7 @@ export const SeatPanel = (props) => {
       // If the seat is already selected and not occupied, deselect it
       if (!val.occupied) {
         setSelectedSeats(selectedSeats.filter((seat) => seat !== key));
-        
+
         // Remove the seat from selectedData
         const updatedSelectedData = { ...selectedData };
         delete updatedSelectedData[key];
@@ -82,13 +87,11 @@ export const SeatPanel = (props) => {
     } else if (selectedSeats.length < 6 && !val.occupied) {
       // If the seat is not selected, the number of selected seats is less than 6, and the seat is not occupied, select it
       setSelectedSeats([...selectedSeats, key]);
-      
+
       // Add the seat to selectedData
       setSelectedData({ ...selectedData, [key]: { occupied: true, username: null, userId: null } });
     }
   };
-  
-  
 
   const confirmBookingBtn = () => {
     nav("/tiket_booking/payment");
@@ -103,26 +106,18 @@ export const SeatPanel = (props) => {
   };
 
   // This is used only for the example
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   if (isTimeUp) {
     const route = "/dashbord";
     const text = "Your booking time has expired.\nPlease try again.";
     const headText = "Oops...!";
-    return (
-      <Dialogu
-        route={route}
-        text={text}
-        headText={headText}
-      />
-    );
+    return <Dialogu route={route} text={text} headText={headText} />;
   }
+
   return (
     <>
-      <AppBar
-        position="sticky"
-        sx={{ backgroundColor: "#FDB805", color: "#000" }}>
+      <AppBar position="sticky" sx={{ backgroundColor: "#FDB805", color: "#000" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -134,7 +129,8 @@ export const SeatPanel = (props) => {
                 fontWeight: 700,
                 color: "inherit",
                 textDecoration: "none",
-              }}>
+              }}
+            >
               {`${moviDetail.moviname}[${moviDetail.name}]`}
               <br />
               {`${moviDetail.date} ${moviDetail.time}`}
@@ -144,10 +140,7 @@ export const SeatPanel = (props) => {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <Button
-                  color="warning"
-                  variant="contained"
-                  onClick={toggleDrawer(true)}>
+                <Button color="warning" variant="contained" onClick={toggleDrawer(true)}>
                   Book Now
                 </Button>
               </Tooltip>
@@ -157,12 +150,11 @@ export const SeatPanel = (props) => {
       </AppBar>
       <div className="w-100 px-2 mt-3 d-flex justify-content-end">
         <Countdown
-          date={Date.now() + 5 * 60 * 1000}
+          date={countdownTime} // Set the countdown time
           onComplete={handleCountdownComplete}
           renderer={({ minutes, seconds }) => (
             <Typography variant="h4">
-              {minutes.toString().padStart(2, "0")}:
-              {seconds.toString().padStart(2, "0")}
+              {minutes.toString().padStart(2, "0")}:{seconds.toString().padStart(2, "0")}
             </Typography>
           )}
         />
@@ -170,8 +162,9 @@ export const SeatPanel = (props) => {
       <div className="d-flex justify-content-center flex-column ">
         <div
           className=" container  border d-flex justify-content-center align-items-center"
-          style={{ height: "70px" }}>
-          <h4 >Screen</h4>
+          style={{ height: "70px" }}
+        >
+          <h4>Screen</h4>
         </div>
         {/* Loop through each group in the seats object */}
         {Object.keys(seats).reverse().map((series, i) => (
@@ -179,11 +172,9 @@ export const SeatPanel = (props) => {
             key={series}
             className={`d-flex w-100 justify-content-center flex-wrap gap-2 mt-${
               i % 7 === 0 && i !== 0 ? 5 : 2
-            }`}>
-            <Button
-              variant="contained"
-              color="error"
-              size="small">
+            }`}
+          >
+            <Button variant="contained" color="error" size="small">
               {series}
             </Button>
             <div className="d-flex gap-5">
@@ -193,14 +184,11 @@ export const SeatPanel = (props) => {
                   .map(([seatKey, seatValue], i) => (
                     <Button
                       key={seatKey}
-                      variant={
-                        selectedSeats.includes(seatKey)
-                          ? "outlined"
-                          : "contained"
-                      }
+                      variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
                       disabled={seatValue.occupied === true}
-                      onClick={() => handleBooking(seatKey,seatValue)}
-                      size="small">
+                      onClick={() => handleBooking(seatKey, seatValue)}
+                      size="small"
+                    >
                       {i + 1}
                     </Button>
                   ))}
@@ -211,14 +199,11 @@ export const SeatPanel = (props) => {
                   .map(([seatKey, seatValue], i) => (
                     <Button
                       key={seatKey}
-                      variant={
-                        selectedSeats.includes(seatKey)
-                          ? "outlined"
-                          : "contained"
-                      }
+                      variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
                       disabled={seatValue.occupied === true}
-                      onClick={() => handleBooking(seatKey,seatValue)}
-                      size="small">
+                      onClick={() => handleBooking(seatKey, seatValue)}
+                      size="small"
+                    >
                       {i + 11}
                     </Button>
                   ))}
@@ -226,9 +211,7 @@ export const SeatPanel = (props) => {
             </div>
           </div>
         ))}
-        <div
-          className="m-4  d-flex justify-content-center"
-          style={{ height: "50px" }}></div>
+        <div className="m-4  d-flex justify-content-center" style={{ height: "50px" }}></div>
       </div>
 
       <div className="container w-100 px-2 mt-3 d-flex justify-content-end">
@@ -253,7 +236,8 @@ export const SeatPanel = (props) => {
             disableSwipeToOpen={false}
             ModalProps={{
               keepMounted: true,
-            }}>
+            }}
+          >
             <StyledBox
               sx={{
                 position: "absolute",
@@ -263,7 +247,8 @@ export const SeatPanel = (props) => {
                 visibility: "visible",
                 right: 0,
                 left: 0,
-              }}>
+              }}
+            >
               <Puller />
               <div className="d-flex justify-content-between px-3">
                 <Typography sx={{ p: 2, color: "text.secondary" }}>
@@ -294,7 +279,8 @@ export const SeatPanel = (props) => {
               color="error"
               variant="contained"
               onClick={confirmBookingBtn}
-              className=" mx-3 align-self-end justifi-self-end">
+              className=" mx-3 align-self-end justifi-self-end"
+            >
               Confirm book
             </Button>
           </SwipeableDrawer>
