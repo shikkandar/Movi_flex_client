@@ -48,19 +48,24 @@ export const SeatPanel = (props) => {
   const { moviDetail, setSelectedSeats, selectedSeats, selectedData, setSelectedData } = useContext(
     UserContext
   );
-
+ 
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [seats, setSeats] = useState({});
   const [countdownTime, setCountdownTime] = useState(Date.now() + 5 * 60 * 1000); // Initial countdown time
 
-  const params = moviDetail.name.split(" ")[0];
-  const bookingDate = moviDetail.date;
-  const bookingTime = moviDetail.time;
+  const params = moviDetail && moviDetail.name ? moviDetail.name.split(" ")[0] : "";
+const bookingDate = moviDetail && moviDetail.date ? moviDetail.date : "";
+const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
+
 
   const [{ apiData }] = useGetFetch(params, {
     bookingDate,
     bookingTime,
   });
+  console.log(moviDetail);
+  if (Object.keys(moviDetail).length === 0) {
+    nav('/')
+  }
 
   useEffect(() => {
     if (apiData && apiData.length > 0) {
@@ -261,8 +266,7 @@ export const SeatPanel = (props) => {
             </StyledBox>
             <div className="d-flex justify-content-center">
               <Image
-                className="m-2"
-                style={{ width: "300px", aspectRatio: "16/9" }}
+                className="m-2 pop-img"
                 src={moviDetail.poster}
                 fluid
                 rounded

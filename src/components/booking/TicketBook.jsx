@@ -15,19 +15,8 @@ export const TicketBook = () => {
   const { tabLabels, currentMonth, currentYear } = currentDates();
   const [bookingDay, setBookingDay] = useState(tabLabels[0]);
   const { moviDetail, setMoviDetail } = useContext(UserContext);
-  
-
   const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
   const [showDay, setShowDay] = useState();
-
-  const handleDayChange = (i, val) => {
-    setShowDay(i + currentDay);
-    setBookingDay(val);
-  };
 
   const currentDate = new Date();
   const currentHour = currentDate.getHours();
@@ -35,9 +24,28 @@ export const TicketBook = () => {
   const currentDay = currentDate.getDate();
 
   useEffect(() => {
-    const currentDay = currentDate.getDate();
-    setShowDay(currentDay);
+    setShowDay(currentDate.getDate());
+
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleDayChange = (i, val) => {
+    setShowDay(i + currentDay);
+    setBookingDay(val);
+  };
 
   const handleShow = async (val) => {
     const dates = bookingDay.split(" ");
@@ -54,6 +62,11 @@ export const TicketBook = () => {
     await createSeats({ bookingDate, theaterName, moviName }, params);
     navigate("/tiket_booking/seat_panel");
   };
+
+  if (Object.keys(moviDetail).length === 0) {
+    navigate('/dashbord');
+    return null; 
+  }
 
   return (
     <div>
