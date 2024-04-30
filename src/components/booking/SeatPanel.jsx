@@ -44,24 +44,12 @@ const Puller = styled("div")(({ theme }) => ({
 export const SeatPanel = (props) => {
   const nav = useNavigate();
 
-  const { moviDetail, setSelectedSeats, selectedSeats } = useContext(UserContext);
- 
+  const { moviDetail, setSelectedSeats, selectedSeats } =
+    useContext(UserContext);
+
   const [isTimeUp, setIsTimeUp] = useState(false);
-  const [seatsA, setSeatsA] = useState([]);
-  const [seatsB, setSeatsB] = useState([]);
-  const [seatsC, setSeatsC] = useState([]);
-  const [seatsD, setSeatsD] = useState([]);
-  const [seatsE, setSeatsE] = useState([]);
-  const [seatsF, setSeatsF] = useState([]);
-  const [seatsG, setSeatsG] = useState([]);
-  const [seatsH, setSeatsH] = useState([]);
-  const [seatsI, setSeatsI] = useState([]);
-  const [seatsJ, setSeatsJ] = useState([]);
-  const [seatsK, setSeatsK] = useState([]);
-  const [seatsL, setSeatsL] = useState([]);
-  const [seatsM, setSeatsM] = useState([]);
-  const [seatsN, setSeatsN] = useState([]);
-  const [seatsO, setSeatsO] = useState([]);
+  const [seats, setSeats] = useState({});
+  console.log(seats);
   const params = moviDetail.name.split(" ")[0];
   const bookingDate = moviDetail.date;
   const bookingTime = moviDetail.time;
@@ -73,24 +61,10 @@ export const SeatPanel = (props) => {
 
   useEffect(() => {
     if (apiData && apiData.length > 0) {
-      setSeatsA(apiData[0].seats[0][0].A);
-      setSeatsB(apiData[0].seats[0][1].B);
-      setSeatsC(apiData[0].seats[0][2].C);
-      setSeatsD(apiData[0].seats[0][3].D);
-      setSeatsE(apiData[0].seats[0][4].E);
-      setSeatsF(apiData[0].seats[0][5].F);
-      setSeatsG(apiData[0].seats[0][6].G);
-      setSeatsH(apiData[0].seats[0][7].H);
-      setSeatsI(apiData[0].seats[0][8].I);
-      setSeatsJ(apiData[0].seats[0][9].J);
-      setSeatsK(apiData[0].seats[0][10].K);
-      setSeatsL(apiData[0].seats[0][11].L);
-      setSeatsM(apiData[0].seats[0][12].M);
-      setSeatsN(apiData[0].seats[0][13].N);
-      setSeatsO(apiData[0].seats[0][14].O);
+      setSeats(apiData[0].seats);
     }
   }, [apiData]);
-
+  console.log(seats);
   const handleCountdownComplete = () => {
     setIsTimeUp(true);
   };
@@ -104,6 +78,7 @@ export const SeatPanel = (props) => {
   };
 
   const confirmBookingBtn = () => {
+    console.log(selectedSeats);
     nav("/tiket_booking/payment");
   };
 
@@ -118,7 +93,7 @@ export const SeatPanel = (props) => {
   // This is used only for the example
   const container =
     window !== undefined ? () => window().document.body : undefined;
-    
+
   if (isTimeUp) {
     const route = "/dashbord";
     const text = "Your booking time has expired.\nPlease try again.";
@@ -170,7 +145,7 @@ export const SeatPanel = (props) => {
       </AppBar>
       <div className="w-100 px-2 mt-3 d-flex justify-content-end">
         <Countdown
-          date={Date.now() + 5 * 60 * 1000}
+          date={Date.now() + 60 * 60 * 1000}
           onComplete={handleCountdownComplete}
           renderer={({ minutes, seconds }) => (
             <Typography variant="h4">
@@ -180,177 +155,70 @@ export const SeatPanel = (props) => {
           )}
         />
       </div>
-      <div className="d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsA).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
+      <div className="d-flex justify-content-center flex-column ">
+        <div
+          className=" container  border d-flex justify-content-center align-items-center"
+          style={{ height: "70px" }}>
+          <h4 >Screen</h4>
+        </div>
+        {/* Loop through each group in the seats object */}
+        {Object.keys(seats).reverse().map((series, i) => (
+          <div
+            key={series}
+            className={`d-flex w-100 justify-content-center flex-wrap gap-2 mt-${
+              i % 7 === 0 && i !== 0 ? 5 : 2
+            }`}>
+            <Button
+              variant="contained"
+              color="error"
+              size="small">
+              {series}
+            </Button>
+            <div className="d-flex gap-5">
+              <div className="d-flex gap-2 flex-wrap justify-content-center">
+                {Object.entries(seats[series])
+                  .slice(0, Math.ceil(Object.entries(seats[series]).length / 2))
+                  .map(([seatKey, seatValue], i) => (
+                    <Button
+                      key={seatKey}
+                      variant={
+                        selectedSeats.includes(seatKey)
+                          ? "outlined"
+                          : "contained"
+                      }
+                      disabled={seatValue.occupied === true}
+                      onClick={() => handleBooking(seatKey)}
+                      size="small">
+                      {i + 1}
+                    </Button>
+                  ))}
+              </div>
+              <div className="d-flex gap-2 flex-wrap justify-content-center">
+                {Object.entries(seats[series])
+                  .slice(Math.ceil(Object.entries(seats[series]).length / 2))
+                  .map(([seatKey, seatValue], i) => (
+                    <Button
+                      key={seatKey}
+                      variant={
+                        selectedSeats.includes(seatKey)
+                          ? "outlined"
+                          : "contained"
+                      }
+                      disabled={seatValue.occupied === true}
+                      onClick={() => handleBooking(seatKey)}
+                      size="small">
+                      {i + 11}
+                    </Button>
+                  ))}
+              </div>
+            </div>
+          </div>
         ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsB).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsC).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsD).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsE).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-5 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsF).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
+        <div
+          className="m-4  d-flex justify-content-center"
+          style={{ height: "50px" }}></div>
       </div>
 
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsG).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsH).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsI).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsJ).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-5 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsK).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsL).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsM).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsN).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-        {Object.entries(seatsO).map(([seatKey, seatValue]) => (
-          <Button
-            key={seatKey}
-            variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-            disabled={seatValue.occupied === true}
-            onClick={() => handleBooking(seatKey)}>
-            {seatKey}
-          </Button>
-        ))}
-      </div>
-      <div
-        className="m-4 border d-flex justify-content-center"
-        style={{ height: "200px" }}>
-        <h4 className="mt-3">Screen</h4>
-      </div>
       <div className="container w-100 px-2 mt-3 d-flex justify-content-end">
         <Root>
           <CssBaseline />
@@ -406,11 +274,7 @@ export const SeatPanel = (props) => {
             {selectedSeats.length > 0 && (
               <div className="d-flex mt-3 justify-content-center w-100 gap-3">
                 {selectedSeats.map((val, i) => (
-                  <p
-                    key={i}
-                    >
-                    {val}
-                  </p>
+                  <p key={i}>{val}</p>
                 ))}
               </div>
             )}
