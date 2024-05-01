@@ -115,7 +115,7 @@ console.log(apiData?.bookingHistory);
               onClose={handleClose}
               aria-describedby="alert-dialog-slide-description">
               <DialogTitle>{"Ticket Details"}</DialogTitle>
-              <Card sx={{ maxWidth: 600, width: "600px" }}>
+              <Card sx={{ maxWidth: 600, width: "600px",aspectRatio:"16/9" }}>
                 <CardMedia
                   sx={{ height: 0, paddingTop: "56.25%" }}
                   image={ticket?.poster}
