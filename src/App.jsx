@@ -16,6 +16,8 @@ import {  ProductRegister, UnAuthorizeAdmin } from "./middleware/AuthorizeAdmin"
 import { TicketBook } from "./components/booking/TicketBook";
 import { SeatPanel } from "./components/booking/SeatPanel";
 import { Payment } from "./components/booking/Payment";
+import { UserTiket } from "./components/user/UserTiket";
+import { UserTicketView } from "./components/user/UserTicketView";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
   {
     path: "/dashbord",
     element: <UnAuthorizeUser><Dashbord/></UnAuthorizeUser>,
+  },
+  {
+    path: "/dashbord/tickets",
+    element:<UserTiket/>,
+  },
+  {
+    path: "/dashbord/tickets/view",
+    element:<UserTicketView/>,
   },
   {
     path: "/admin",

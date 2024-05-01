@@ -101,7 +101,6 @@ export async function verifyOTP(username, code) {
 
 
 /**Reset Password */
-
 export async function resetPassword({username,password,confirm_pwd}) {
   try {
     const response = await axios.put('/api/resetPassword',{username,password,confirm_pwd});
@@ -121,7 +120,6 @@ export async function getUsername() {
 }
 
 /**Update user profile funtion */
-
 export async function updateUser(res) {
   try {
     const token = localStorage.getItem("token");
@@ -133,5 +131,13 @@ export async function updateUser(res) {
     return Promise.resolve({ data });
   } catch (error) {
     return Promise.reject({ error: "Couldn't update profile...!" });
+  }
+}
+
+export async function sendBookingData({username,ticketNum,bookingHistory}) {
+  try {
+    return axios.post("/api/user/booking", {username,ticketNum, bookingHistory });
+  } catch (error) {
+    return Promise.reject({ error });
   }
 }

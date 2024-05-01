@@ -17,7 +17,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Image } from "react-bootstrap";
-
+import toast, { Toaster } from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
+import cryptoRandomString from 'crypto-random-string';
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
@@ -45,26 +47,33 @@ const Puller = styled("div")(({ theme }) => ({
 export const SeatPanel = (props) => {
   const nav = useNavigate();
 
-  const { moviDetail, setSelectedSeats, selectedSeats, selectedData, setSelectedData } = useContext(
-    UserContext
-  );
- 
+  const {
+    moviDetail,
+    setSelectedSeats,
+    selectedSeats,
+    selectedData,
+    setSelectedData,
+    setTicketNum,
+  } = useContext(UserContext);
+
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [seats, setSeats] = useState({});
-  const [countdownTime, setCountdownTime] = useState(Date.now() + 5 * 60 * 1000); // Initial countdown time
+  const [countdownTime, setCountdownTime] = useState(
+    Date.now() + 5 * 60 * 1000
+  ); // Initial countdown time
 
-  const params = moviDetail && moviDetail.name ? moviDetail.name.split(" ")[0] : "";
-const bookingDate = moviDetail && moviDetail.date ? moviDetail.date : "";
-const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
-
+  const params =
+    moviDetail && moviDetail.name ? moviDetail.name.split(" ")[0] : "";
+  const bookingDate = moviDetail && moviDetail.date ? moviDetail.date : "";
+  const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
 
   const [{ apiData }] = useGetFetch(params, {
     bookingDate,
     bookingTime,
   });
-  console.log(moviDetail);
+
   if (Object.keys(moviDetail).length === 0) {
-    nav('/')
+    nav("/");
   }
 
   useEffect(() => {
@@ -76,6 +85,11 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
   const handleCountdownComplete = () => {
     setIsTimeUp(true);
   };
+  const token=localStorage.getItem('token')
+  const decodedToken=jwtDecode(token)
+  const username=decodedToken.username
+  const userId=decodedToken.userId
+  const randomString = cryptoRandomString({ length: 17, type: 'numeric' });
 
   const handleBooking = (key, val) => {
     // Update the selectedSeats state as before
@@ -92,12 +106,14 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
     } else if (selectedSeats.length < 6 && !val.occupied) {
       // If the seat is not selected, the number of selected seats is less than 6, and the seat is not occupied, select it
       setSelectedSeats([...selectedSeats, key]);
-
+      setTicketNum(randomString)
       // Add the seat to selectedData
-      setSelectedData({ ...selectedData, [key]: { occupied: true, username: null, userId: null } });
+      setSelectedData({
+        ...selectedData,
+        [key]: { occupied: true, username, userId ,ticketNum:randomString,poster:moviDetail},
+      });
     }
   };
-
   const confirmBookingBtn = () => {
     nav("/tiket_booking/payment");
   };
@@ -107,22 +123,39 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+    if (selectedSeats.length === 0) {
+      toast.error("Choose your preferred seating.");
+    } else {
+      setOpen(newOpen);
+    }
   };
 
   // This is used only for the example
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   if (isTimeUp) {
     const route = "/dashbord";
     const text = "Your booking time has expired.\nPlease try again.";
     const headText = "Oops...!";
-    return <Dialogu route={route} text={text} headText={headText} />;
+    return (
+      <Dialogu
+        route={route}
+        text={text}
+        headText={headText}
+      />
+    );
   }
 
   return (
     <>
-      <AppBar position="sticky" sx={{ backgroundColor: "#FDB805", color: "#000" }}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
+      <AppBar
+        position="sticky"
+        sx={{ backgroundColor: "#FDB805", color: "#000" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -134,8 +167,7 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
                 fontWeight: 700,
                 color: "inherit",
                 textDecoration: "none",
-              }}
-            >
+              }}>
               {`${moviDetail.moviname}[${moviDetail.name}]`}
               <br />
               {`${moviDetail.date} ${moviDetail.time}`}
@@ -145,7 +177,10 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <Button color="warning" variant="contained" onClick={toggleDrawer(true)}>
+                <Button
+                  color="success"
+                  variant="contained"
+                  onClick={toggleDrawer(true)}>
                   Book Now
                 </Button>
               </Tooltip>
@@ -159,7 +194,8 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
           onComplete={handleCountdownComplete}
           renderer={({ minutes, seconds }) => (
             <Typography variant="h4">
-              {minutes.toString().padStart(2, "0")}:{seconds.toString().padStart(2, "0")}
+              {minutes.toString().padStart(2, "0")}:
+              {seconds.toString().padStart(2, "0")}
             </Typography>
           )}
         />
@@ -167,56 +203,70 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
       <div className="d-flex justify-content-center flex-column ">
         <div
           className=" container  border d-flex justify-content-center align-items-center"
-          style={{ height: "70px" }}
-        >
+          style={{ height: "70px" }}>
           <h4>Screen</h4>
         </div>
         {/* Loop through each group in the seats object */}
-        {Object.keys(seats).reverse().map((series, i) => (
-          <div
-            key={series}
-            className={`d-flex w-100 justify-content-center flex-wrap gap-2 mt-${
-              i % 7 === 0 && i !== 0 ? 5 : 2
-            }`}
-          >
-            <Button variant="contained" color="error" size="small">
-              {series}
-            </Button>
-            <div className="d-flex gap-5">
-              <div className="d-flex gap-2 flex-wrap justify-content-center">
-                {Object.entries(seats[series])
-                  .slice(0, Math.ceil(Object.entries(seats[series]).length / 2))
-                  .map(([seatKey, seatValue], i) => (
-                    <Button
-                      key={seatKey}
-                      variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-                      disabled={seatValue.occupied === true}
-                      onClick={() => handleBooking(seatKey, seatValue)}
-                      size="small"
-                    >
-                      {i + 1}
-                    </Button>
-                  ))}
-              </div>
-              <div className="d-flex gap-2 flex-wrap justify-content-center">
-                {Object.entries(seats[series])
-                  .slice(Math.ceil(Object.entries(seats[series]).length / 2))
-                  .map(([seatKey, seatValue], i) => (
-                    <Button
-                      key={seatKey}
-                      variant={selectedSeats.includes(seatKey) ? "outlined" : "contained"}
-                      disabled={seatValue.occupied === true}
-                      onClick={() => handleBooking(seatKey, seatValue)}
-                      size="small"
-                    >
-                      {i + 11}
-                    </Button>
-                  ))}
+        {Object.keys(seats)
+          .reverse()
+          .map((series, i) => (
+            <div
+              key={series}
+              className={`d-flex w-100 justify-content-center flex-wrap gap-2 mt-${
+                i % 7 === 0 && i !== 0 ? 5 : 2
+              }`}>
+              <Button
+                variant="contained"
+                color="error"
+                size="small">
+                {series}
+              </Button>
+              <div className="d-flex gap-5">
+                <div className="d-flex gap-2 flex-wrap justify-content-center">
+                  {Object.entries(seats[series])
+                    .slice(
+                      0,
+                      Math.ceil(Object.entries(seats[series]).length / 2)
+                    )
+                    .map(([seatKey, seatValue], i) => (
+                      <Button
+                        key={seatKey}
+                        variant={
+                          selectedSeats.includes(seatKey)
+                            ? "outlined"
+                            : "contained"
+                        }
+                        disabled={seatValue.occupied === true}
+                        onClick={() => handleBooking(seatKey, seatValue)}
+                        size="small">
+                        {i + 1}
+                      </Button>
+                    ))}
+                </div>
+                <div className="d-flex gap-2 flex-wrap justify-content-center">
+                  {Object.entries(seats[series])
+                    .slice(Math.ceil(Object.entries(seats[series]).length / 2))
+                    .map(([seatKey, seatValue], i) => (
+                      <Button
+                        key={seatKey}
+                        variant={
+                          selectedSeats.includes(seatKey)
+                            ? "outlined"
+                            : "contained"
+                        }
+                        disabled={seatValue.occupied === true}
+                        onClick={() => handleBooking(seatKey, seatValue)}
+                        size="small">
+                        {i + 11}
+                      </Button>
+                    ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-        <div className="m-4  d-flex justify-content-center" style={{ height: "50px" }}></div>
+          ))}
+        <div
+          className="m-4  d-flex justify-content-center"
+          style={{ height: "50px" }}></div>
       </div>
 
       <div className="container w-100 px-2 mt-3 d-flex justify-content-end">
@@ -241,8 +291,7 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
             disableSwipeToOpen={false}
             ModalProps={{
               keepMounted: true,
-            }}
-          >
+            }}>
             <StyledBox
               sx={{
                 position: "absolute",
@@ -252,8 +301,7 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
                 visibility: "visible",
                 right: 0,
                 left: 0,
-              }}
-            >
+              }}>
               <Puller />
               <div className="d-flex justify-content-between px-3">
                 <Typography sx={{ p: 2, color: "text.secondary" }}>
@@ -283,8 +331,7 @@ const bookingTime = moviDetail && moviDetail.time ? moviDetail.time : "";
               color="error"
               variant="contained"
               onClick={confirmBookingBtn}
-              className=" mx-3 align-self-end justifi-self-end"
-            >
+              className=" mx-3 align-self-end justifi-self-end">
               Confirm book
             </Button>
           </SwipeableDrawer>

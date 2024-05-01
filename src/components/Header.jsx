@@ -19,14 +19,18 @@ import logo from "../assets/logo.png";
 
 export const Header = () => {
   const [{ apiData, isLoading, auth }] = useFetch();
-  const pages = ["Dashboard", "Pricing", auth === true ? "Admin" : undefined].filter(Boolean);
+  const pages = [
+    "Dashboard",
+    "Tickets",
+    auth === true ? "Admin" : undefined,
+  ].filter(Boolean);
   const settings = ["Profile", "Logout"];
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const usertoken=localStorage.getItem("token");
-  const admintoken=localStorage.getItem("admintoken")
+  const usertoken = localStorage.getItem("token");
+  const admintoken = localStorage.getItem("admintoken");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -46,24 +50,24 @@ export const Header = () => {
   function handleProfileClick() {
     navigate("/profile");
   }
-  function handleDashboardClick() { 
+  function handleDashboardClick() {
     navigate("/dashbord");
+  }
+  function handleTicketClick() {
+    navigate("/dashbord/tickets");
   }
   function handleAdminClick() {
     if (admintoken && usertoken) {
       navigate("/admin/dash");
-    }else{
+    } else {
       navigate("/admin");
     }
-    
   }
   function handleLogoutClick() {
     localStorage.removeItem("token");
-    localStorage.removeItem("admintoken")
+    localStorage.removeItem("admintoken");
     navigate("/");
   }
-
-
 
   return (
     <AppBar
@@ -126,6 +130,9 @@ export const Header = () => {
                       case "Dashboard":
                         handleDashboardClick();
                         break;
+                      case "Tickets":
+                        handleTicketClick();
+                        break;
                       case "Admin":
                         handleAdminClick();
                         break;
@@ -133,8 +140,7 @@ export const Header = () => {
                         handleCloseNavMenu();
                         break;
                     }
-                  }}
-                  >
+                  }}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -149,6 +155,9 @@ export const Header = () => {
                   switch (page) {
                     case "Dashboard":
                       handleDashboardClick();
+                      break;
+                    case "Tickets":
+                      handleTicketClick();
                       break;
                     case "Admin":
                       handleAdminClick();

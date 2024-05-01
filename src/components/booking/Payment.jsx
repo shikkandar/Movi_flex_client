@@ -8,9 +8,11 @@ import Button from "@mui/material/Button";
 import { UserContext } from "../../context/ContextProvider";
 import { UpdateBooking } from "../../routes/bookingRouts";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { sendBookingData } from "../../routes/apiRoute";
 
 export const Payment = () => {
-  const { moviDetail, selectedSeats, selectedData,setSelectedSeats, setSelectedData } = useContext(UserContext);
+  const { moviDetail, selectedSeats, selectedData,setSelectedSeats, setSelectedData,ticketNum } = useContext(UserContext);
   const ticketPrice = selectedSeats.length * moviDetail.price;
   const gst = (ticketPrice / 100) * 8;
   const totalAmount = ticketPrice + gst + 20;
@@ -18,13 +20,42 @@ export const Payment = () => {
   const bookingDate = moviDetail.date;
   const bookingTime = moviDetail.time;
   const navigate = useNavigate();
+console.log(selectedSeats);
 
+
+const bookingHistory={
+  "Theater":moviDetail.name,
+  "time":moviDetail.time,
+  "date":moviDetail.date,
+  "poster":moviDetail.poster,
+  "tickets":selectedSeats
+}
+console.log(bookingHistory);
+const username="shikkandar";
   const handleBooking = async () => {
-    await UpdateBooking({ params, bookingDate, bookingTime, selectedData });
-    setSelectedSeats([])
-    setSelectedData({})
-    navigate('/tiket_booking/seat_panel');
+    try {
+ 
+      const bookingPromise = UpdateBooking({ params, bookingDate, bookingTime, selectedData });
+  
+      toast.promise(bookingPromise, {
+        loading: "Updating booking...",
+        success: <b>Booking successfully!</b>,
+        error: <b>Ooops Booking failed...!</b>,
+      });
+  
+      await sendBookingData({username,ticketNum,bookingHistory})
+    
+      setSelectedSeats([]);
+      setSelectedData({});
+      
+      navigate('/dashbord/tickets');
+
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error("An error occurred while updating booking. Please try again.");
+    }
   };
+  
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -44,6 +75,10 @@ export const Payment = () => {
 
   return (
     <div className="d-flex mt-5 justify-content-center">
+      <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
       <Card sx={{ maxWidth: 600, width: "600px" }}>
         <CardMedia
           sx={{ height: 0, paddingTop: "56.25%" }}
@@ -55,6 +90,9 @@ export const Payment = () => {
         <CardContent className="d-flex flex-column">
           <Typography gutterBottom variant="h5" component="div">
             {`${moviDetail.moviname}[${moviDetail.name}]`}
+          </Typography>
+          <Typography gutterBottom variant="h6" component="div">
+            <b>Ticket Num:</b> {ticketNum}
           </Typography>
           <Typography gutterBottom variant="h6" component="div">
             <b>Ticket per price:</b> {moviDetail.price}
