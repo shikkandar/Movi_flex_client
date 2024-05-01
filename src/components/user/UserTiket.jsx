@@ -25,6 +25,7 @@ import Paper from "@mui/material/Paper";
 import { Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { InfinitySpin } from "react-loader-spinner";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return (
@@ -76,8 +77,18 @@ export const UserTiket = () => {
   return (
     <div>
       <Header />
-      {data === "" ? (
-        <h1>No data</h1>
+      {!apiData ? (
+       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+       <InfinitySpin
+         visible={true}
+         height={100}
+         width={100}
+         color="#000"
+         ariaLabel="dna-loading"
+         wrapperStyle={{}}
+         wrapperClass="dna-wrapper"
+       />
+     </div>
       ) : (
         <Container className="mt-5">
           <TableContainer component={Paper}>

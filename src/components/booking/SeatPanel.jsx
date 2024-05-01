@@ -45,6 +45,33 @@ const Puller = styled("div")(({ theme }) => ({
 }));
 
 export const SeatPanel = (props) => {
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Cancel the event
+      event.preventDefault();
+      // Chrome requires returnValue to be set
+      event.returnValue = "";
+      // Prompt the confirmation message
+      const confirmationMessage =
+        "Are you sure you want to leave? Your changes may not be saved.";
+      event.returnValue = confirmationMessage; // For some browsers
+      return confirmationMessage;
+    };
+
+    // Check if window is defined before adding the event listener
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
+
+    return () => {
+      // Check if window is defined before removing the event listener
+      if (typeof window !== "undefined") {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      }
+    };
+  }, []);
+
+
   const nav = useNavigate();
 
   const {
