@@ -18,6 +18,7 @@ import { profileValidate } from "../schemas/inputValidation";
 import toast, { Toaster } from "react-hot-toast";
 import useFetch from "../hooks/fetch.hooks";
 import { updateUser } from "../routes/apiRoute";
+import { InfinitySpin } from "react-loader-spinner";
 
 export const Profile = () => {
   const [{ isLoading, apiData, serverError }] = useFetch();
@@ -98,7 +99,19 @@ export const Profile = () => {
   });
 
   if (isLoading) {
-    return <h1 className="text-2xl font-bold">isLoding</h1>;
+    return(
+      <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+      <InfinitySpin
+        visible={true}
+        height={100}
+        width={100}
+        color="#000"
+        ariaLabel="dna-loading"
+        wrapperStyle={{}}
+        wrapperClass="dna-wrapper"
+      />
+    </div>
+    )
   }
   if (serverError) {
     return <h1 className="text-xl text-red-500">{serverError.message}</h1>;

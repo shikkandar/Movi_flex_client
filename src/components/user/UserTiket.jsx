@@ -78,17 +78,17 @@ export const UserTiket = () => {
     <div>
       <Header />
       {!apiData ? (
-       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
-       <InfinitySpin
-         visible={true}
-         height={100}
-         width={100}
-         color="#000"
-         ariaLabel="dna-loading"
-         wrapperStyle={{}}
-         wrapperClass="dna-wrapper"
-       />
-     </div>
+        <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+          <InfinitySpin
+            visible={true}
+            height={100}
+            width={100}
+            color="#000"
+            ariaLabel="dna-loading"
+            wrapperStyle={{}}
+            wrapperClass="dna-wrapper"
+          />
+        </div>
       ) : (
         <Container className="mt-5">
           <TableContainer component={Paper}>
@@ -148,7 +148,7 @@ export const UserTiket = () => {
               <Card sx={{ maxWidth: 600 }}>
                 <Image
                   className="p-3"
-                  style={{aspectRatio:"16/9"}}
+                  style={{ aspectRatio: "16/9" }}
                   src={ticket?.poster}
                   fluid
                 />
