@@ -22,12 +22,18 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import { Container } from "react-bootstrap";
+import { Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return (
+    <Slide
+      direction="up"
+      ref={ref}
+      {...props}
+    />
+  );
 });
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -57,13 +63,12 @@ export const UserTiket = () => {
   const [open, setOpen] = React.useState(false);
   const [key, setKey] = useState("");
   const ticket = apiData?.bookingHistory[key] || ""; // Added safe navigation operator ?. to avoid accessing poster of undefined
-console.log(apiData?.bookingHistory);
+
   const handleClickOpen = (key) => {
     const strKey = key.toString();
     setKey(strKey);
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -76,7 +81,9 @@ console.log(apiData?.bookingHistory);
       ) : (
         <Container className="mt-5">
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <Table
+              sx={{ minWidth: 700 }}
+              aria-label="customized table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>S.No</StyledTableCell>
@@ -99,7 +106,9 @@ console.log(apiData?.bookingHistory);
                       <StyledTableCell>{booking.date}</StyledTableCell>
                       <StyledTableCell>{booking.time}</StyledTableCell>
                       <StyledTableCell>
-                        <Link onClick={() => handleClickOpen(ticketNum)}>View</Link>
+                        <Link onClick={() => handleClickOpen(ticketNum)}>
+                          View
+                        </Link>
                       </StyledTableCell>
                     </StyledTableRow>
                   )
@@ -114,27 +123,37 @@ console.log(apiData?.bookingHistory);
               keepMounted
               onClose={handleClose}
               aria-describedby="alert-dialog-slide-description">
-              <DialogTitle>{"Ticket Details"}</DialogTitle>
-              <Card sx={{ maxWidth: 600, width: "600px",aspectRatio:"16/9" }}>
-                <CardMedia
-                  sx={{ height: 0, paddingTop: "56.25%" }}
-                  image={ticket?.poster}
-                  title="Movie Poster"
-                  style={{ width: "100%", height: "auto" }}
+              <div>
+                <DialogTitle>{"Ticket Details"}</DialogTitle>
+                <Button
+                  onClick={handleClose}
+                  style={{ position: "absolute", top: "0px", right: "0px" }}
+                  variant="text"
+                  color="error"
+                  size="large">
+                  X
+                </Button>
+              </div>
+              <Card sx={{ maxWidth: 600 }}>
+                <Image
+                  className="p-3"
+                  style={{aspectRatio:"16/9"}}
+                  src={ticket?.poster}
+                  fluid
                 />
 
                 <CardContent className="d-flex flex-column">
                   <Typography
                     gutterBottom
-                    variant="h5"
+                    variant="h6"
                     component="div">
-                    {}
+                    <b>Ticket Num:</b> {key}
                   </Typography>
                   <Typography
                     gutterBottom
                     variant="h6"
                     component="div">
-                    <b>Ticket Num:</b> {key}
+                    <b>Theater Name:</b> {ticket?.Theater}
                   </Typography>
                   <Typography
                     gutterBottom
@@ -149,10 +168,8 @@ console.log(apiData?.bookingHistory);
                     <b>Seat Num:</b> {ticket?.tickets?.join()}
                   </Typography>
                 </CardContent>
+                <DialogActions></DialogActions>
               </Card>
-              <DialogActions>
-                <Button onClick={handleClose}>okay</Button>
-              </DialogActions>
             </Dialog>
           </React.Fragment>
         </Container>
