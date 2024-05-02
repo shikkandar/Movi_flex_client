@@ -133,6 +133,7 @@ export const UserTicketVerification = () => {
                 style={{ aspectRatio: "16/9" }}
                 src={apiData.data.poster}
                 fluid
+                rounded
               />
 
               <CardContent className="d-flex flex-column">
