@@ -37,7 +37,7 @@ export const Payment = () => {
       const bookingPromise = UpdateBooking({ params, bookingDate, bookingTime, selectedData });
 
       toast.promise(bookingPromise, {
-        loading: "Updating booking...",
+        loading: "booking...",
         success: <b>Booking successfully!</b>,
         error: <b>Ooops Booking failed...!</b>,
       });
@@ -46,7 +46,7 @@ export const Payment = () => {
 
       setSelectedSeats([]);
       setSelectedData({});
-
+      navigate('/dashbord/tickets')
     } catch (error) {
       console.error("Booking error:", error);
       toast.error("An error occurred while updating booking. Please try again.");
