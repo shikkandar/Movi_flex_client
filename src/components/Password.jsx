@@ -19,7 +19,6 @@ export const Password = () => {
   const { userdata } = useContext(UserContext);
 
   const [{ isLoading, apiData, serverError }] = useFetch(`user/${userdata}`);
-  console.log(userdata);
   const [passShow, setPassShow] = useState(false);
   const navigate = useNavigate();
   const formik = useFormik({

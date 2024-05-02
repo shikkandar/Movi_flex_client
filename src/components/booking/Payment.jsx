@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import toast, { Toaster } from "react-hot-toast";
 import { sendBookingData } from "../../routes/apiRoute";
+import { jwtDecode } from "jwt-decode";
 
 export const Payment = () => {
   const { moviDetail, selectedSeats, selectedData, setSelectedSeats, setSelectedData, ticketNum } = useContext(UserContext);
@@ -30,14 +31,16 @@ export const Payment = () => {
     "tickets": selectedSeats
   };
 
-  const username = "shikkandar";
+  const token=localStorage.getItem('token')
+  const decodedToken=jwtDecode(token)
+  const username = decodedToken.username;
 
   const handleBooking = async () => {
     try {
       const bookingPromise = UpdateBooking({ params, bookingDate, bookingTime, selectedData });
 
       toast.promise(bookingPromise, {
-        loading: "booking...",
+        loading: "Updating booking...",
         success: <b>Booking successfully!</b>,
         error: <b>Ooops Booking failed...!</b>,
       });

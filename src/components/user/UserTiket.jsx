@@ -63,7 +63,7 @@ export const UserTiket = () => {
   const [data, setData] = useState("hi");
   const [open, setOpen] = React.useState(false);
   const [key, setKey] = useState("");
-  const ticket = apiData?.bookingHistory[key] || ""; // Added safe navigation operator ?. to avoid accessing poster of undefined
+  const ticket = apiData && apiData.bookingHistory ? apiData.bookingHistory[key] || "" : "";
 
   const handleClickOpen = (key) => {
     const strKey = key.toString();
@@ -77,7 +77,7 @@ export const UserTiket = () => {
   return (
     <div>
       <Header />
-      {!apiData ? (
+      {apiData ===undefined ? (
         <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
           <InfinitySpin
             visible={true}
@@ -186,5 +186,6 @@ export const UserTiket = () => {
         </Container>
       )}
     </div>
+    
   );
 };

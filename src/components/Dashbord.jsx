@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "react-bootstrap";
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card"; // Importing Card from @mui/material
+import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,6 +12,14 @@ import { InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/ContextProvider";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 export const Dashbord = () => {
   const { setMoviDetail } = useContext(UserContext);
@@ -24,7 +32,8 @@ export const Dashbord = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/theaters");
-        setTheaters(response.data);
+        const shuffledTheaters = shuffleArray(response.data); // Shuffle the theaters array
+        setTheaters(shuffledTheaters);
         setLoading(false); // Set loading to false when data is fetched
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -66,10 +75,10 @@ export const Dashbord = () => {
                 val.runningMovies === false && (
                   <Card key={i} sx={{ maxWidth: 600 }}>
                     <CardMedia
-                      sx={{ height: 0, paddingTop: "56.25%" }} // Maintain aspect ratio (16:9)
+                      sx={{ height: 0, paddingTop: "56.25%" }} 
                       image={val.poster}
                       title="Movi Poster"
-                      style={{ width: "100%", height: "auto" }} // Make image fluid
+                      style={{ width: "100%", height: "auto" }} 
                     />
 
                     <CardContent>
