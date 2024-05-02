@@ -82,6 +82,7 @@ export const adminSchema = yup.object({
 export const adminDashSchema = yup.object({
   name: yup.string().required("Theatter is required"),
   moviname: yup.string().required("Movi Name is required"),
+  rating:yup.string().required("Rating is required"),
   price: yup.string().required("Price is required"),
   poster:yup.string().url("Poster must be a valid URL").required("Poster URL is required"),
   description: yup.string().required("Price Name is required"),

@@ -11,6 +11,9 @@ import { Header } from "./Header";
 import { InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/ContextProvider";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
+
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 function shuffleArray(array) {
@@ -49,7 +52,7 @@ export const Dashbord = () => {
 
   const handleBook = (i, val) => {
     setMoviDetail(val);
-    navigate('/tiket_booking');
+    navigate("/tiket_booking");
   };
 
   return (
@@ -73,23 +76,52 @@ export const Dashbord = () => {
             {theaters.map(
               (val, i) =>
                 val.runningMovies === false && (
-                  <Card key={i} sx={{ maxWidth: 600 }}>
+                  <Card
+                    key={i}
+                    sx={{ maxWidth: 600 }}>
                     <CardMedia
-                      sx={{ height: 0, paddingTop: "56.25%" }} 
+                      sx={{ height: 0, paddingTop: "56.25%" }}
                       image={val.poster}
                       title="Movi Poster"
-                      style={{ width: "100%", height: "auto" }} 
+                      style={{ width: "100%", height: "auto" }}
                     />
 
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div">
                         {val.moviname}
                       </Typography>
-                      <Typography gutterBottom component="div">
+                      <Typography
+                        gutterBottom
+                        className="d-flex"
+                        component="div">
+                        {"IMDB Rating"}:
+                        <Rating
+                          name="text-feedback"
+                          value={val.rating}
+                          readOnly
+                          precision={0.5}
+                          max={10}
+                          emptyIcon={
+                            <StarIcon
+                              style={{ opacity: 0.55 }}
+                              fontSize="inherit"
+                            />
+                          }
+                        />{" "}
+                        {`${val.rating}/10`}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        component="div">
                         {val.name}
                       </Typography>
 
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="body2"
+                        color="text.secondary">
                         <b>Story:</b>{" "}
                         {showMoreIndex === i
                           ? val.description
@@ -102,11 +134,12 @@ export const Dashbord = () => {
                         color="success"
                         variant="contained"
                         onClick={() => handleBook(i, val)}
-                        size="small"
-                      >
+                        size="small">
                         Book Now
                       </Button>
-                      <Button onClick={() => toggleShowMore(i)} size="small">
+                      <Button
+                        onClick={() => toggleShowMore(i)}
+                        size="small">
                         {showMoreIndex === i ? "Show Less" : "Read More"}
                       </Button>
                     </CardActions>

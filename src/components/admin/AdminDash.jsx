@@ -22,6 +22,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { InfinitySpin } from "react-loader-spinner";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
+
+
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const AdminDash = () => {
@@ -38,12 +42,14 @@ export const AdminDash = () => {
     setDeleteIndex(null);
   };
 
+
   const [theaters, setTheaters] = useState([]);
 
   const formik = useFormik({
     initialValues: {
       name: "",
       moviname: "",
+      rating: "",
       price: "",
       poster: "",
       description: "",
@@ -69,29 +75,29 @@ export const AdminDash = () => {
         success: <b>Update Successfully...!</b>,
         error: <b>Update failed...!</b>,
       });
-      window.location.reload()
+      window.location.reload();
     },
   });
 
-  const deletemovi = async(index) => {
+  const deletemovi = async (index) => {
     setOpen(true);
     const valueToDelete = theaters[index];
     const values = {
       name: valueToDelete.name,
       runningMovies: true,
       price: "",
+      rating: "",
       moviname: "",
       description: "",
       poster: "",
     };
     let updatePromise = updateMoviList(values);
-     await toast.promise(updatePromise, {
+    await toast.promise(updatePromise, {
       loading: "Updating...",
       success: <b>Update Successfully...!</b>,
       error: <b>Update failed...!</b>,
-      
     });
-    window.location.reload()
+    window.location.reload();
     handleClose();
   };
 
@@ -107,24 +113,25 @@ export const AdminDash = () => {
 
     fetchData();
   }, []);
-
+  console.log(theaters);
   const [showMoreIndex, setShowMoreIndex] = useState(null);
 
   const toggleShowMore = (index) => {
     setShowMoreIndex((prevIndex) => (prevIndex === index ? null : index));
   };
-  const  handleClickUpdate=(index)=>{
-    const updateVal=theaters[index]
+  const handleClickUpdate = (index) => {
+    const updateVal = theaters[index];
     formik.setValues({
       name: updateVal.name,
       moviname: updateVal.moviname,
       price: updateVal.price,
+      rating: updateVal.rating,
       poster: updateVal.poster,
       description: updateVal.description,
       runningMovies: updateVal.runningMovie,
     });
-  }
-  if(!theaters){
+  };
+  if (!theaters) {
     return (
       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
         <InfinitySpin
@@ -142,12 +149,14 @@ export const AdminDash = () => {
   return (
     <div>
       <AdminHeader />
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <Container className="mt-5">
         <Form
           onSubmit={formik.handleSubmit}
-          className="d-flex justify-content-center align-items-end gap-2 flex-wrap"
-        >
+          className="d-flex justify-content-center align-items-end gap-2 flex-wrap">
           <div>
             <InputLabel id="demo-simple-select-label">Theater</InputLabel>
             <Select
@@ -157,12 +166,13 @@ export const AdminDash = () => {
               onChange={formik.handleChange}
               value={formik.values.name}
               label="Age"
-              style={{ minWidth: "200px" }}
-            >
+              style={{ minWidth: "200px" }}>
               {theaters.map(
                 (val, i) =>
                   val.runningMovies && (
-                    <MenuItem key={i} value={val.name}>
+                    <MenuItem
+                      key={i}
+                      value={val.name}>
                       {val.name}
                     </MenuItem>
                   )
@@ -178,6 +188,18 @@ export const AdminDash = () => {
               label="Movie-name"
               value={formik.values.moviname}
               variant="outlined"
+            />
+          </div>
+          
+          <div>
+            <TextField
+              style={{ minWidth: "200px" }}
+              id="rating"
+              label="Rating"
+              name="rating"
+              variant="outlined"
+              onChange={formik.handleChange}
+              value={formik.values.rating}
             />
           </div>
           <div>
@@ -219,68 +241,122 @@ export const AdminDash = () => {
             type="submit"
             style={{ height: "55px", width: "40px" }}
             variant="contained"
-            color="success"
-          >
+            color="success">
             +
           </Button>
         </Form>
       </Container>
-      <Container className="my-5 d-flex gap-3 justify-content-center flex-wrap" >
-        {theaters.map((val, i) =>
-          val.runningMovies === false && (
-            <Card key={i} sx={{ maxWidth: 600 }}>
-              <CardMedia
-                sx={{ height: 0, paddingTop: "56.25%" }} // Maintain aspect ratio (16:9)
-                image={val.poster}
-                title="Movi Poster"
-                style={{ width: "100%", height: "auto" }} // Make image fluid
-              />
+      <Container className="my-5 d-flex gap-3 justify-content-center flex-wrap">
+        {theaters.map(
+          (val, i) =>
+            val.runningMovies === false && (
+              <Card
+                key={i}
+                sx={{ maxWidth: 600 }}>
+                <CardMedia
+                  sx={{ height: 0, paddingTop: "56.25%" }} // Maintain aspect ratio (16:9)
+                  image={val.poster}
+                  title="Movi Poster"
+                  style={{ width: "100%", height: "auto" }} // Make image fluid
+                />
 
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {val.moviname}
-                </Typography>
-                <Typography gutterBottom component="div">
-                  {val.name} {"Theater"}
-                </Typography>
-                <Typography gutterBottom component="div">
-                  {"Price"} : <b>₹{val.price}</b>
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <b>Story:</b>{" "}
-                  {showMoreIndex === i ? val.description : val.description.substring(0, 250)}
-                  {showMoreIndex !== i ? "..." : ""}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <React.Fragment>
-                  <Button color="error" variant="contained" onClick={() => handleClickOpen(i)} size="small">
-                    Delete
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div">
+                    {val.moviname}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    className="d-flex"
+                    component="div">
+                    {"IMDB Rating"}:
+                    <Rating
+                      name="text-feedback"
+                      value={val.rating}
+                      readOnly
+                      precision={0.5}
+                      max={10}
+                      emptyIcon={
+                        <StarIcon
+                          style={{ opacity: 0.55 }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />{" "}
+                    {`${val.rating}/10`}
+                  </Typography>
+
+                  <Typography
+                    gutterBottom
+                    component="div">
+                    {val.name} {"Theater"}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    component="div">
+                    {"Price"} : <b>₹{val.price}</b>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary">
+                    <b>Story:</b>{" "}
+                    {showMoreIndex === i
+                      ? val.description
+                      : val.description.substring(0, 250)}
+                    {showMoreIndex !== i ? "..." : ""}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <React.Fragment>
+                    <Button
+                      color="error"
+                      variant="contained"
+                      onClick={() => handleClickOpen(i)}
+                      size="small">
+                      Delete
+                    </Button>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => handleClickUpdate(i)}
+                      size="small">
+                      Update..!
+                    </Button>
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description">
+                      <DialogTitle id="alert-dialog-title">
+                        {"Use Google's location service?"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Let Google help apps determine location. This means
+                          sending anonymous location data to Google, even when
+                          no apps are running.
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Disagree</Button>
+                        <Button
+                          onClick={() => deletemovi(deleteIndex)}
+                          autoFocus>
+                          Agree
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </React.Fragment>
+                  <Button
+                    onClick={() => toggleShowMore(i)}
+                    size="small">
+                    {showMoreIndex === i ? "Show Less" : "Read More"}
                   </Button>
-                  <Button color="secondary" variant="contained" onClick={() => handleClickUpdate(i)} size="small">
-                    Update..!
-                  </Button>
-                  <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-                    <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Disagree</Button>
-                      <Button onClick={() => deletemovi(deleteIndex)} autoFocus>
-                        Agree
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </React.Fragment>
-                <Button onClick={() => toggleShowMore(i)} size="small">
-                  {showMoreIndex === i ? "Show Less" : "Read More"}
-                </Button>
-              </CardActions>
-            </Card>
-          )
+                </CardActions>
+              </Card>
+            )
         )}
       </Container>
     </div>
