@@ -97,7 +97,7 @@ export const Dashbord = () => {
                         gutterBottom
                         className="d-flex"
                         component="div">
-                        {"IMDB Rating"}:
+                        {"imdb"}:
                         <Rating
                           name="text-feedback"
                           value={val.rating}
@@ -110,7 +110,7 @@ export const Dashbord = () => {
                               fontSize="inherit"
                             />
                           }
-                        />{" "}
+                        />
                         {`${val.rating}/10`}
                       </Typography>
                       <Typography

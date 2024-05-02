@@ -190,7 +190,7 @@ export const AdminDash = () => {
               variant="outlined"
             />
           </div>
-          
+
           <div>
             <TextField
               style={{ minWidth: "200px" }}
@@ -271,7 +271,7 @@ export const AdminDash = () => {
                     gutterBottom
                     className="d-flex"
                     component="div">
-                    {"IMDB Rating"}:
+                    {"imdb"}:
                     <Rating
                       name="text-feedback"
                       value={val.rating}
@@ -284,7 +284,7 @@ export const AdminDash = () => {
                           fontSize="inherit"
                         />
                       }
-                    />{" "}
+                    />
                     {`${val.rating}/10`}
                   </Typography>
 
