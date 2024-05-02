@@ -251,6 +251,7 @@ export const AdminDash = () => {
           (val, i) =>
             val.runningMovies === false && (
               <Card
+                data-aos="zoom-in-up"
                 key={i}
                 sx={{ maxWidth: 600 }}>
                 <CardMedia

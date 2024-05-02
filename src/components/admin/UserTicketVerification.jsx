@@ -18,8 +18,8 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const UserTicketVerification = () => {
   const [apiData, setApiData] = useState(null);
-  const [isLoading,setIsloading]=useState(false)
-  console.log(apiData);
+  const [isvVerify,setIsVerify]=useState(true)
+  console.log(isvVerify);
   const token = localStorage.getItem("admintoken");
   const decodeToken = jwtDecode(token);
   const username = decodeToken.username;
@@ -43,7 +43,7 @@ export const UserTicketVerification = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      setIsloading(true)
+      
       try {
         const loginPromise = axios.get(`/api/admin/verifyTicket`, {
           params: {
@@ -58,18 +58,20 @@ export const UserTicketVerification = () => {
           loading: "Verifying ticket...",
           success: (response) => {
             setApiData(response.data);
-            setIsloading(false)
+            
             return <b>Ticket verified successfully...!</b>;
           },
           error: (error) => {
             console.error("Error:", error);
             setApiData(null)
+            setIsVerify(false)
             return <b>Invalidate Ticket...!</b>;
           },
         });
       } catch (error) {
         console.error("Error:", error);
         setApiData(null)
+        
         toast.error("An error occurred while processing your request");
       }
     },
@@ -121,7 +123,7 @@ export const UserTicketVerification = () => {
               fluid
               style={{ width: "50px" }}
             />
-            <h5 className="text-success">{apiData.status}</h5>
+            
           </div>
 
           <Container className="d-flex justify-content-center align-items-center">
