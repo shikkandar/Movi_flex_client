@@ -86,6 +86,10 @@ export const adminDashSchema = yup.object({
   poster:yup.string().url("Poster must be a valid URL").required("Poster URL is required"),
   description: yup.string().required("Price Name is required"),
 });
+export const ticketVerificationSchema = yup.object({
+  username: yup.string().required("Username is required"),
+  ticketNum:yup.string().required("Ticket Number is required")
+});
 
 async function validateSchema(schema, values) {
   try {
@@ -129,3 +133,4 @@ export const resetValidate = (values) => validateSchema(resetSchema, values);
 export const adminValidate = (values) => validateSchema(adminSchema, values);
 export const profileValidate = (values) =>validateSchema(profileSchema, values);
 export const adminDashValidate = (values) =>validateSchema(adminDashSchema, values);
+export const ticketVerificationValidate = (values) =>validateSchema(ticketVerificationSchema, values);

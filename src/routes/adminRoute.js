@@ -16,7 +16,6 @@ export async function loginAdmin({ username, password }) {
 }
 
 export async function updateMoviList( res) {
-    console.log(res);
   try {
     const token = localStorage.getItem("admintoken");
 
@@ -28,3 +27,4 @@ export async function updateMoviList( res) {
     return Promise.reject({ error: "Couldn't update profile...!" });
   }
 }
+
