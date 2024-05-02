@@ -15,6 +15,7 @@ import { jwtDecode } from "jwt-decode";
 
 export const Payment = () => {
   const { moviDetail, selectedSeats, selectedData, setSelectedSeats, setSelectedData, ticketNum } = useContext(UserContext);
+  console.log(selectedData);
   const ticketPrice = selectedSeats.length * moviDetail.price;
   const gst = (ticketPrice / 100) * 8;
   const totalAmount = ticketPrice + gst + 20;
@@ -25,6 +26,7 @@ export const Payment = () => {
 
   const bookingHistory = {
     "Theater": moviDetail.name,
+    "username":moviDetail.username,
     "time": moviDetail.time,
     "date": moviDetail.date,
     "poster": moviDetail.poster,

@@ -13,20 +13,35 @@ import { useNavigate } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import { deepPurple } from "@mui/material/colors";
-
+import MenuIcon from "@mui/icons-material/Menu";
+import Button from "@mui/material/Button";
 
 export const AdminHeader = () => {
 
   const settings = ["Swith to user","Logout"];
   const navigate = useNavigate();
+
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
- 
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+
+  const pages = ["Dashboard","Verify Tickets",]
+  function handleDashboardClick() {
+    navigate("/admin/dash");
+  }
+  function handleTicketClick() {
+    navigate("/admin/ticketsVerification");
+  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -67,10 +82,76 @@ export const AdminHeader = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit">
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}>
+              {pages.map((page) => (
+                <MenuItem
+                  key={page}
+                  onClick={() => {
+                    switch (page) {
+                      case "Dashboard":
+                        handleDashboardClick();
+                        break;
+                      case "Verify Tickets":
+                        handleTicketClick();
+                        break;
+                      default:
+                        handleCloseNavMenu();
+                        break;
+                    }
+                  }}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => {
+                  switch (page) {
+                    case "Dashboard":
+                      handleDashboardClick();
+                      break;
+                    case "Verify Tickets":
+                      handleTicketClick();
+                      break;
+                    default:
+                      handleCloseNavMenu();
+                      break;
+                  }
+                }}
+                sx={{ my: 2, color: "black", display: "block" }}>
+                {page}
+              </Button>
+            ))}
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton

@@ -137,7 +137,7 @@ export const SeatPanel = (props) => {
       // Add the seat to selectedData
       setSelectedData({
         ...selectedData,
-        [key]: { occupied: true, username, userId ,ticketNum:randomString,poster:moviDetail},
+        [key]: { occupied: true, username, userId ,ticketNum:randomString,poster:moviDetail.poster  },
       });
     }
   };

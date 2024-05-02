@@ -17,7 +17,7 @@ import { TicketBook } from "./components/booking/TicketBook";
 import { SeatPanel } from "./components/booking/SeatPanel";
 import { Payment } from "./components/booking/Payment";
 import { UserTiket } from "./components/user/UserTiket";
-import { UserTicketView } from "./components/user/UserTicketView";
+import { UserTicketVerification } from "./components/admin/UserTicketVerification";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -56,8 +56,8 @@ const router = createBrowserRouter([
     element:<UserTiket/>,
   },
   {
-    path: "/dashbord/tickets/view",
-    element:<UserTicketView/>,
+    path: "/admin/ticketsVerification",
+    element:<UnAuthorizeAdmin><UserTicketVerification/></UnAuthorizeAdmin>,
   },
   {
     path: "/admin",
