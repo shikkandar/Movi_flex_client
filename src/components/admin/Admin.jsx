@@ -125,14 +125,7 @@ export const Admin = () => {
                     Log In
                   </Button>
                 </div>
-                <p className="text-center fs-5 mt-2">
-                  Forgot Password{" "}
-                  <Link
-                    to="/recovery"
-                    style={{ textDecoration: "none" }}>
-                    <span style={{ color: "#FBB903" }}>Recovery Now</span>
-                  </Link>
-                </p>
+                
               </Box>
             </Form>
           </div>

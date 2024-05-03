@@ -56,6 +56,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const UserTiket = () => {
   const { userdata } = useContext(UserContext);
   const [{ isLoading, apiData, serverError }] = useFetch();
+  console.log(apiData);
   const [data, setData] = useState("hi");
   const [open, setOpen] = React.useState(false);
   const [key, setKey] = useState("");
@@ -150,6 +151,12 @@ export const UserTiket = () => {
                 />
 
                 <CardContent className="d-flex flex-column">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div">
+                    <b>username:</b> {apiData.username}
+                  </Typography>
                   <Typography
                     gutterBottom
                     variant="h6"
