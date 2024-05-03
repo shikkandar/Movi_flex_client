@@ -1,6 +1,3 @@
-Sure, here's a complete README.md file for your Moviflex project:
-
-```markdown
 # Moviflex
 
 Welcome to Moviflex, a web application for movie enthusiasts! Moviflex provides two types of login options: user login and admin login. Depending on the type of credentials entered, users will be directed to their respective areas.
@@ -44,29 +41,3 @@ To get started with Moviflex, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/shikkandar/Movi_flex_client.git
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-## Technologies Used
-
-- React
-- React Router
-- Material-UI
-- Bootstrap
-- Axios
-- Day.js
-- Formik
-- Yup
-- etc.
-```
-
-Feel free to adjust any part of the README according to your preferences or additional details you'd like to include!
