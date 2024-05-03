@@ -1,7 +1,6 @@
-I see you want to display the README content in a terminal-style black screen. Here's how you can achieve that:
+Sure, here's a complete README.md file for your Moviflex project:
 
 ```markdown
-\`\`\`bash
 # Moviflex
 
 Welcome to Moviflex, a web application for movie enthusiasts! Moviflex provides two types of login options: user login and admin login. Depending on the type of credentials entered, users will be directed to their respective areas.
@@ -38,32 +37,33 @@ Then use This id and password for adminpanel
 - **Password**: Admin@123 
 ![Admin Login](/src/assets/screenShot/admin.png)
 
+
 This page for upload movies
 
 ![Upload Movies](/src/assets/screenShot/uploadfile.png)
 
 This page for verify tickets
 
-![Upload Movies](/src/assets/screenShot/verifivation.png)
+![Verify Ticket](/src/assets/screenShot/verifivation.png)
 
 ## Getting Started
 
 To get started with Moviflex, follow these steps:
 
 1. Clone the repository:
-   \`\`\`bash
+   ```bash
    git clone https://github.com/shikkandar/Movi_flex_client.git
-   \`\`\`
+   ```
 
 2. Install dependencies:
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 3. Start the development server:
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
 ## Technologies Used
 
@@ -81,5 +81,3 @@ Moviflex is built using a variety of technologies and frameworks:
 
 Feel free to adjust any part of the README according to your preferences or additional details you'd like to include!
 \`\`\`
-```
-
