@@ -39,6 +39,11 @@ This page for upload movies
 
 ![Upload Movies](/src/assets/screenShot/uploadfile.png)
 
+
+This page for verify tickets
+
+![Upload Movies](/src/assets/screenShot/verifivation.png)
+
 ## Getting Started
 
 To get started with Moviflex, follow these steps:
