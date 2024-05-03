@@ -123,7 +123,7 @@ export const UserTicketVerification = () => {
               fluid
               style={{ width: "50px" }}
             />
-            
+            <h6 className="text-success">Ticket Verified</h6>
           </div>
 
           <Container className="d-flex justify-content-center align-items-center">
