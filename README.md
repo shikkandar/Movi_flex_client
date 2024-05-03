@@ -34,6 +34,11 @@ Then use This id and password for adminpanel
 - **Password**: Admin@123 
 ![Admin Login](/src/assets/screenShot/admin.png)
 
+
+This page for upload movies
+
+![Upload Movies](/src/assets/screenShot/uploadfile.png)
+
 ## Getting Started
 
 To get started with Moviflex, follow these steps:
