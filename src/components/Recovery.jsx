@@ -17,11 +17,7 @@ export const Recovery = () => {
   const { userdata } = useContext(UserContext);
 
 
-  useEffect(()=>{
-    generateOTP(userdata).then((OTP)=>{
-      console.log(OTP);
-    })
-  },[userdata])
+  
   const formik = useFormik({
     initialValues: {
       otp: ""
@@ -58,9 +54,7 @@ export const Recovery = () => {
       success:<b>OTP has been sended to your email</b>,
       error:<b>Could not Send it!</b>
     })
-    sendPromiss.then(OTP=>{
-      console.log(OTP);
-    })
+   
   }
   return (
     <div className="back">

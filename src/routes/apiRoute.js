@@ -61,29 +61,28 @@ export async function verifyPassword({ username, password }) {
 
 /**Generate otp */
 
+
 export async function generateOTP(username) {
   try {
-    const {
-      data: { code },
-      status,
-    } = await axios.get("/api/generateOTP", { params: { username } });
-    // if (status === 201) {
-    //   let {
-    //     data: { email },
-    //   } = await getuser({ username });
-    //   let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
-    //   await axios.post("/api/registerMail", {
-    //     username,
-    //     userEmail: email,
-    //     text,
-    //     subject: "Password Recovery OTP",
-    //   });
-    // }
-    return Promise.resolve(code);
+    const response = await axios.get("/api/generateOTP", { params: { username } });
+    const { code } = response.data;
+    const { email } = (await getuser({ username })).data;
+    
+    const text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
+
+    await axios.post("/api/registerMail", {
+      username,
+      userEmail: email,
+      text,
+      subject: "Password Recovery OTP",
+    });
+
+    return code;
   } catch (error) {
-    return Promise.reject({ error });
+    return Promise.reject(error);
   }
 }
+
 
 /**verify otp */
 // Client-side verifyOTP function

@@ -40,7 +40,7 @@ export const Register = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       const completeValues = { ...values, profile: file || "" };
-
+    
       toast.promise(registerUser(completeValues), {
         loading: "Registering...",
         success: (data) => {
@@ -48,20 +48,25 @@ export const Register = () => {
           navigate("/");
           return "Registration successful!";
         },
-        error: (err) => {
-          const errorMessage = err.toString().replace("Error: ", "");
-          // Return the error message directly without displaying it again
-          return errorMessage;
-        },
+        error: ("Image size under 50KB")
+        
       });
     },
+    
   });
   const onUpload = async (e) => {
     if (e.target.files[0]) {
-      const base64 = await convertToBase64(e.target.files[0]);
-      setFile(base64);
+      try {
+        const base64 = await convertToBase64(e.target.files[0]);
+        setFile(base64);
+      } catch (error) {
+        toast.error("Failed to upload file. Please try again.");
+      }
+    } else {
+      toast.error("No file selected for upload.");
     }
   };
+  
   return (
     <div className="back">
       <Container

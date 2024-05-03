@@ -1,72 +1,29 @@
-Got it! Here's the updated README.md with the GitHub repository link included:
+# Moviflex
 
-```markdown
-# Vite React App
+Welcome to Moviflex, a web application for movie enthusiasts! Moviflex provides two types of login options: user login and admin login. Depending on the type of credentials entered, users will be directed to their respective areas.
 
-This is a React application bootstrapped with Vite.
+## Features
+
+- **User Login**: Regular users can log in using their credentials.
+- **Admin Login**: Administrators can log in using their admin credentials.
+- **Conditional Navigation**: Upon login, users are directed to their corresponding areas based on their role.
+
+## Screenshots
+
+### User Login
+![User Login](/src/assets/screenShot/userLogin.png)
+
+Here's the user login interface.
+
+### Admin Login
+![Admin Login](admin_login_screenshot.png)
+
+Here's the admin login interface.
 
 ## Getting Started
 
-First, clone this repository:
+To get started with Moviflex, follow these steps:
 
-```bash
-git clone https://github.com/shikkandar/Movi_flex_client.git
-cd Movi_flex_client
-```
-
-Then, install dependencies:
-
-```bash
-npm install
-# or
-yarn
-```
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm dev`
-
-Starts the development server.
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `npm build`
-
-Builds the app for production to the `dist` folder.
-
-```bash
-npm run build
-# or
-yarn build
-```
-
-Your app is ready to be deployed!
-
-## Environment Variables
-
-Before running the development server or building for production, make sure to set the environment variable `VITE_SERVER_DOMAIN` to your server URL. You can do this by creating a `.env` file in the root directory of the project and adding the variable like so:
-
-```
-VITE_SERVER_DOMAIN="Your-Server-Url"
-```
-
-## Learn More
-
-To learn more about Vite.js, check out the [Vite documentation](https://vitejs.dev/).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
-
-Now, the README includes the GitHub repository link you provided.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/shikkandar/Movi_flex_client.git
