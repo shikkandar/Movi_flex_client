@@ -16,7 +16,7 @@ Welcome to Moviflex, a web application for movie enthusiasts! Moviflex provides 
 Here's the user login interface.
 
 ### Admin Login
-![Admin Login](admin_login_screenshot.png)
+![Admin Login](/src/assets/screenShot/adminlogin.png)
 
 Here's the admin login interface.
 
