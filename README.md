@@ -9,6 +9,9 @@ Welcome to Moviflex, a web application for movie enthusiasts! Moviflex provides 
 - **Conditional Navigation**: Upon login, users are directed to their corresponding areas based on their role.
 
 ## Screenshots
+### Common login for all
+![User Login](/src/assets/screenShot/login.png)
+
 
 ### User Login
 ![User Login](/src/assets/screenShot/userLogin.png)
