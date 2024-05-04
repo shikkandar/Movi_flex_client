@@ -1,3 +1,7 @@
+The Moviflex application is deployed and accessible online. 
+
+### [Moviflex Website](https://shik-movi-flex.netlify.app)
+
 # Moviflex
 
 Welcome to Moviflex, a web application for movie enthusiasts! Moviflex provides two types of login options: user login and admin login. Depending on the type of credentials entered, users will be directed to their respective areas.
