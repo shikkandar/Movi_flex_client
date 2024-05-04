@@ -130,7 +130,14 @@ export const AdminDash = () => {
       description: updateVal.description,
       runningMovies: updateVal.runningMovie,
     });
+  
+    // Scroll to the top of the window
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Optional: smooth scrolling animation
+    });
   };
+  
   if (!theaters) {
     return (
       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">

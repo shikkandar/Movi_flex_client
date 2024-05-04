@@ -47,6 +47,11 @@ This page for verify tickets
 
 ![Upload Movies](/src/assets/screenShot/verifivation.png)
 
+
+"JWT expiration leads to immediate logout in Moviflex application."
+
+![Upload Movies](/src/assets/screenShot/sesstion.png)
+
 Certainly! Here's a formatted version of the information with a "Copy" button for each technology used:
 
 ---
