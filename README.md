@@ -1,6 +1,6 @@
 The Moviflex application is deployed and accessible online. 
 
-### [Moviflex Website](https://shik-movi-flex.netlify.app)
+### [Click to view Moviflex Website](https://shik-movi-flex.netlify.app)
 
 # Moviflex
 
