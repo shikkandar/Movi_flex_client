@@ -44,7 +44,7 @@ export const Admin = () => {
         password:values.password
       })
       toast.promise(loginPromise,{
-        loading: "Checkling...",
+        loading: "Checking...",
         success: <b>Login Successfully...!</b>,
         error: <b>Password not Match...!</b>,
       })
