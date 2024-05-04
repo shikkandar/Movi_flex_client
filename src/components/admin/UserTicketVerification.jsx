@@ -76,6 +76,7 @@ export const UserTicketVerification = () => {
       }
     },
   });
+  console.log(apiData);
 
   return (
     <div>
@@ -137,6 +138,12 @@ export const UserTicketVerification = () => {
               />
 
               <CardContent className="d-flex flex-column">
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div">
+                  <b>username:</b> {formik.values.username}
+                </Typography>
                 <Typography
                   gutterBottom
                   variant="h6"
