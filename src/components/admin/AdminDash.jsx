@@ -25,7 +25,6 @@ import { InfinitySpin } from "react-loader-spinner";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 
-
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const AdminDash = () => {
@@ -41,7 +40,6 @@ export const AdminDash = () => {
     setOpen(false);
     setDeleteIndex(null);
   };
-
 
   const [theaters, setTheaters] = useState([]);
 
@@ -130,14 +128,14 @@ export const AdminDash = () => {
       description: updateVal.description,
       runningMovies: updateVal.runningMovie,
     });
-  
+
     // Scroll to the top of the window
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Optional: smooth scrolling animation
+      behavior: "smooth", // Optional: smooth scrolling animation
     });
   };
-  
+
   if (!theaters) {
     return (
       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
@@ -338,21 +336,21 @@ export const AdminDash = () => {
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description">
                       <DialogTitle id="alert-dialog-title">
-                        {"Use Google's location service?"}
+                        {"Are you sure you want to delete?"}
                       </DialogTitle>
                       <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                          Let Google help apps determine location. This means
-                          sending anonymous location data to Google, even when
-                          no apps are running.
+                          This action cannot be undone. Are you sure you want to
+                          proceed with the deletion?
                         </DialogContentText>
                       </DialogContent>
+
                       <DialogActions>
-                        <Button onClick={handleClose}>Disagree</Button>
+                        <Button onClick={handleClose}>cancel</Button>
                         <Button
                           onClick={() => deletemovi(deleteIndex)}
                           autoFocus>
-                          Agree
+                          done
                         </Button>
                       </DialogActions>
                     </Dialog>
