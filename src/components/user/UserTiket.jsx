@@ -72,6 +72,19 @@ export const UserTiket = () => {
   const homeNav = () => {
     navigate("/dashbord");
   };
+  if (apiData ===undefined) {
+    <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+            <InfinitySpin
+              visible={true}
+              height={100}
+              width={100}
+              color="#000"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
+          </div>
+  }
 
   if (apiData !== undefined && "bookingHistory" in apiData) {
     return (
