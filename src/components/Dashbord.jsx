@@ -58,17 +58,20 @@ export const Dashbord = () => {
   return (
     <div>
       {loading ? (
-        <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
-          <InfinitySpin
-            visible={true}
-            height={100}
-            width={100}
-            color="#000"
-            ariaLabel="dna-loading"
-            wrapperStyle={{}}
-            wrapperClass="dna-wrapper"
-          />
-        </div>
+        <>
+          <Header />
+          <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
+            <InfinitySpin
+              visible={true}
+              height={100}
+              width={100}
+              color="#000"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
+          </div>
+        </>
       ) : (
         <div>
           <Header />
