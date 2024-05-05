@@ -100,6 +100,8 @@ export const Profile = () => {
 
   if (isLoading) {
     return(
+     <>
+     <Header/>
       <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
       <InfinitySpin
         visible={true}
@@ -111,6 +113,7 @@ export const Profile = () => {
         wrapperClass="dna-wrapper"
       />
     </div>
+     </>
     )
   }
   if (serverError) {
