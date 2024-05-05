@@ -17,7 +17,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { Container, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { InfinitySpin } from "react-loader-spinner";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
@@ -53,6 +53,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const UserTiket = () => {
+  const navigate=useNavigate()
   const [{ isLoading, apiData, serverError }] = useFetch();
   console.log(apiData);
   const [open, setOpen] = React.useState(false);
@@ -68,6 +69,9 @@ export const UserTiket = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const homeNav=()=>{
+    navigate('/dashbord')
+  }
 
   if (apiData !== undefined && "bookingHistory" in apiData) {
     return (
@@ -199,6 +203,7 @@ export const UserTiket = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="contained"
+              onClick={homeNav}
               sx={{
                 backgroundColor: "#000",
                 "&:hover": {
