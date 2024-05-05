@@ -72,24 +72,12 @@ export const UserTiket = () => {
   const homeNav = () => {
     navigate("/dashbord");
   };
-  if (apiData ===undefined) {
-    <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
-            <InfinitySpin
-              visible={true}
-              height={100}
-              width={100}
-              color="#000"
-              ariaLabel="dna-loading"
-              wrapperStyle={{}}
-              wrapperClass="dna-wrapper"
-            />
-          </div>
-  }
 
-  if (apiData !== undefined && "bookingHistory" in apiData) {
+
+  if (apiData === undefined) {
     return (
       <div>
-        {apiData === undefined ? (
+  
           <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
             <InfinitySpin
               visible={true}
@@ -101,114 +89,103 @@ export const UserTiket = () => {
               wrapperClass="dna-wrapper"
             />
           </div>
-        ) : (
-          <>
-            <Header />
-            <Container className="mt-5">
-              <TableContainer component={Paper}>
-                <Table
-                  sx={{ minWidth: 700 }}
-                  aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>S.No</StyledTableCell>
-                      <StyledTableCell>Theater Name</StyledTableCell>
-                      <StyledTableCell>Show Data</StyledTableCell>
-                      <StyledTableCell>Show Time</StyledTableCell>
-                      <StyledTableCell>View Ticket</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {Object.entries(apiData?.bookingHistory || {}).map(
-                      ([ticketNum, booking], i) => (
-                        <StyledTableRow key={ticketNum}>
-                          <StyledTableCell
-                            component="th"
-                            scope="row">
-                            {i + 1}
-                          </StyledTableCell>
-                          <StyledTableCell>{booking.Theater}</StyledTableCell>
-                          <StyledTableCell>{booking.date}</StyledTableCell>
-                          <StyledTableCell>{booking.time}</StyledTableCell>
-                          <StyledTableCell>
-                            <Link onClick={() => handleClickOpen(ticketNum)}>
-                              View
-                            </Link>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      )
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <React.Fragment>
-                <Dialog
-                  open={open}
-                  TransitionComponent={Transition}
-                  keepMounted
-                  onClose={handleClose}
-                  aria-describedby="alert-dialog-slide-description">
-                  <div>
-                    <DialogTitle>{"Ticket Details"}</DialogTitle>
-                    <Button
-                      onClick={handleClose}
-                      style={{ position: "absolute", top: "0px", right: "0px" }}
-                      variant="text"
-                      color="error"
-                      size="large">
-                      X
-                    </Button>
-                  </div>
-                  <Card sx={{ maxWidth: 600 }}>
-                    <Image
-                      className="p-3"
-                      style={{ aspectRatio: "16/9" }}
-                      src={ticket?.poster}
-                      fluid
-                    />
-
-                    <CardContent className="d-flex flex-column">
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div">
-                        <b>username:</b> {apiData.username}
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div">
-                        <b>Ticket Num:</b> {key}
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div">
-                        <b>Theater Name:</b> {ticket?.Theater}
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div">
-                        <b>Date:</b> {ticket?.date}
-                      </Typography>
-                      <Typography variant="h6">
-                        <b>Time:</b> {ticket?.time}
-                      </Typography>
-                      <Typography variant="h6">
-                        <b>Seat Num:</b> {ticket?.tickets?.join()}
-                      </Typography>
-                    </CardContent>
-                    <DialogActions></DialogActions>
-                  </Card>
-                </Dialog>
-              </React.Fragment>
-            </Container>
-          </>
-        )}
+    
       </div>
     );
-  } else {
+  } 
+  if (apiData !== undefined && "bookingHistory" in apiData) {
+    return (
+      <>
+        <Header />
+        <Container className="mt-5">
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>S.No</StyledTableCell>
+                  <StyledTableCell>Theater Name</StyledTableCell>
+                  <StyledTableCell>Show Data</StyledTableCell>
+                  <StyledTableCell>Show Time</StyledTableCell>
+                  <StyledTableCell>View Ticket</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.entries(apiData?.bookingHistory || {}).map(
+                  ([ticketNum, booking], i) => (
+                    <StyledTableRow key={ticketNum}>
+                      <StyledTableCell component="th" scope="row">
+                        {i + 1}
+                      </StyledTableCell>
+                      <StyledTableCell>{booking.Theater}</StyledTableCell>
+                      <StyledTableCell>{booking.date}</StyledTableCell>
+                      <StyledTableCell>{booking.time}</StyledTableCell>
+                      <StyledTableCell>
+                        <Link onClick={() => handleClickOpen(ticketNum)}>
+                          View
+                        </Link>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <React.Fragment>
+            <Dialog
+              open={open}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleClose}
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <div>
+                <DialogTitle>{"Ticket Details"}</DialogTitle>
+                <Button
+                  onClick={handleClose}
+                  style={{ position: "absolute", top: "0px", right: "0px" }}
+                  variant="text"
+                  color="error"
+                  size="large"
+                >
+                  X
+                </Button>
+              </div>
+              <Card sx={{ maxWidth: 600 }}>
+                <Image
+                  className="p-3"
+                  style={{ aspectRatio: "16/9" }}
+                  src={ticket?.poster}
+                  fluid
+                />
+  
+                <CardContent className="d-flex flex-column">
+                  <Typography gutterBottom variant="h6" component="div">
+                    <b>username:</b> {apiData.username}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="div">
+                    <b>Ticket Num:</b> {key}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="div">
+                    <b>Theater Name:</b> {ticket?.Theater}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="div">
+                    <b>Date:</b> {ticket?.date}
+                  </Typography>
+                  <Typography variant="h6">
+                    <b>Time:</b> {ticket?.time}
+                  </Typography>
+                  <Typography variant="h6">
+                    <b>Seat Num:</b> {ticket?.tickets?.join()}
+                  </Typography>
+                </CardContent>
+                <DialogActions></DialogActions>
+              </Card>
+            </Dialog>
+          </React.Fragment>
+        </Container>
+      </>
+    );
+  }else {
     return (
       <>
         <Header />
@@ -235,4 +212,5 @@ export const UserTiket = () => {
       </>
     );
   }
+  
 };
