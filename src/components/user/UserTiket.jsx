@@ -77,7 +77,7 @@ export const UserTiket = () => {
   if (apiData === undefined) {
     return (
       <div>
-  
+        <Header/>
           <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
             <InfinitySpin
               visible={true}
