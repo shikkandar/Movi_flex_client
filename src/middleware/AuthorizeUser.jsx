@@ -21,7 +21,7 @@ export const UnAuthorizeUser = ({ children }) => {
           setExp(decodeToken.exp);
           await axios.get("/api/protected", {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`, 
             },
           });
         } catch (error) {

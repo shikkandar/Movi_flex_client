@@ -15,10 +15,10 @@ import logo from "../../assets/logo.png";
 import { deepPurple } from "@mui/material/colors";
 import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
+import { Dark } from "../Dark";
 
 export const AdminHeader = () => {
-
-  const settings = ["Swith to user","Logout"];
+  const settings = ["Swith to user", "Logout"];
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -34,8 +34,7 @@ export const AdminHeader = () => {
     setAnchorElNav(null);
   };
 
-
-  const pages = ["Dashboard","Verify Tickets",]
+  const pages = ["Dashboard", "Verify Tickets"];
   function handleDashboardClick() {
     navigate("/admin/dash");
   }
@@ -56,60 +55,84 @@ export const AdminHeader = () => {
   }
 
   return (
-    <AppBar
-      position="sticky"
-      sx={{ backgroundColor: "#FDB805", color: "#000" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Image
-            src={logo}
-            style={{ width: "30px" }}
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}>
-            ovi-Flex
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit">
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    <>
+      <AppBar
+        position="sticky"
+        sx={{ backgroundColor: "#FDB805", color: "#000" }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Image
+              src={logo}
+              style={{ width: "30px" }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
               sx={{
-                display: { xs: "block", md: "none" },
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
               }}>
+              ovi-Flex
+            </Typography>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit">
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}>
+                {pages.map((page) => (
+                  <MenuItem
+                    key={page}
+                    onClick={() => {
+                      switch (page) {
+                        case "Dashboard":
+                          handleDashboardClick();
+                          break;
+                        case "Verify Tickets":
+                          handleTicketClick();
+                          break;
+                        default:
+                          handleCloseNavMenu();
+                          break;
+                      }
+                    }}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
-                <MenuItem
+                <Button
                   key={page}
                   onClick={() => {
                     switch (page) {
@@ -123,81 +146,60 @@ export const AdminHeader = () => {
                         handleCloseNavMenu();
                         break;
                     }
-                  }}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                  }}
+                  sx={{ my: 2, color: "black", display: "block" }}>
+                  {page}
+                </Button>
               ))}
-            </Menu>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                  switch (page) {
-                    case "Dashboard":
-                      handleDashboardClick();
-                      break;
-                    case "Verify Tickets":
-                      handleTicketClick();
-                      break;
-                    default:
-                      handleCloseNavMenu();
-                      break;
-                  }
+            </Box>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}>
+                  <Avatar sx={{ bgcolor: deepPurple[500] }}>A</Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
                 }}
-                sx={{ my: 2, color: "black", display: "block" }}>
-                {page}
-              </Button>
-            ))}
-          </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{ p: 0 }}>
-                <Avatar sx={{ bgcolor: deepPurple[500] }}>A</Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={() => {
-                    switch (setting) {
-                      case "Logout":
-                        handleLogoutClick();
-                        break;
-                      case "Swith to user":
-                        handleSwithUserClick();
-                        break;
-                      default:
-                        handleCloseUserMenu();
-                        break;
-                    }
-                  }}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}>
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      switch (setting) {
+                        case "Logout":
+                          handleLogoutClick();
+                          break;
+                        case "Swith to user":
+                          handleSwithUserClick();
+                          break;
+                        default:
+                          handleCloseUserMenu();
+                          break;
+                      }
+                    }}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Dark />
+    </>
   );
 };

@@ -9,6 +9,7 @@ const Context = ({ children }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedData, setSelectedData] = useState({});
   const [ticketNum, setTicketNum] = useState("");
+  const [theme, setTheme] = useState('light');
 
   return (
     <UserContext.Provider
@@ -25,6 +26,8 @@ const Context = ({ children }) => {
         setSelectedData,
         ticketNum,
         setTicketNum,
+        theme,
+        setTheme
       }}>
       {children}
     </UserContext.Provider>

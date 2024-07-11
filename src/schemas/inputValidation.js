@@ -14,6 +14,8 @@ export const usernameSchema = yup
   .trim()
   .min(3, "Minimum 3 characters required")
   .max(25, "Maximum 25 characters allowed");
+
+  
 export const passwordSchema = yup
   .string()
   .required("Password is required")

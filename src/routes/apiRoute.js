@@ -2,6 +2,7 @@ import axios from "axios";
 import {jwtDecode} from 'jwt-decode'
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
+// api routes
 export async function registerUser(credentials) {
   try {
     const response = await axios.post("/api/register", credentials);

@@ -16,6 +16,7 @@ import useFetch from "../hooks/fetch.hooks";
 import avatar from "../assets/13369169.jpg";
 import { Image } from "react-bootstrap";
 import logo from "../assets/logo.png";
+import { Dark } from "./Dark";
 
 export const Header = () => {
   const [{ apiData, isLoading, auth }] = useFetch();
@@ -70,6 +71,7 @@ export const Header = () => {
   }
 
   return (
+    <>
     <AppBar
       position="sticky"
       sx={{ backgroundColor: "#FDB805", color: "#000" }}>
@@ -223,5 +225,7 @@ export const Header = () => {
         </Toolbar>
       </Container>
     </AppBar>
+    <Dark/>
+    </>
   );
 };
